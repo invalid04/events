@@ -59,3 +59,13 @@ export const eventsRoute = new Hono()
     }
     return c.json({experience})
 })
+.delete('/:id{[0-9]+}', (c) => {
+    const id = Number.parseInt(c.req.param('id'))
+    const index = fakeExperiences.findIndex(experience => experience.id === id)
+    if (index === -1) {
+        return c.notFound()
+    }
+
+    const deletedExperience = fakeExperiences.splice(index, 1)[0]
+    return c.json({ experience: deletedExperience })
+})
