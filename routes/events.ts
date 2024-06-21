@@ -51,3 +51,11 @@ export const eventsRoute = new Hono()
     fakeExperiences.push({...experience, id: fakeExperiences.length})
     return c.json(experience)
 })
+.get('/:id{[0-9]+}', (c) => {
+    const id = Number.parseInt(c.req.param('id'))
+    const experience = fakeExperiences.find(experience => experience.id === id)
+    if (!experience) {
+        return c.notFound()
+    }
+    return c.json({experience})
+})
