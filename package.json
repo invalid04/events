@@ -2,7 +2,7 @@
   "name": "events",
   "module": "index.ts",
   "type": "module",
-  "scripts":{
+  "scripts": {
     "start": "bun index.ts",
     "dev": "bun --watch index.ts"
   },
@@ -11,5 +11,8 @@
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "hono": "^4.4.7"
   }
 }
