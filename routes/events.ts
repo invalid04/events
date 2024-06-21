@@ -2,15 +2,19 @@ import { Hono } from 'hono'
 import { z } from 'zod'
 import { zValidator } from '@hono/zod-validator'
 
-type Experience = {
-    id: number,
-    title: string,
-    desc: string,
-    date: string,
-    time: string,
-    location: string,
-    maxAttendance: string,
-}
+const experienceSchema = z.object({
+    id: z.number().int().positive().min(1),
+    title: z.string(),
+    desc: z.string(),
+    date: z.string(),
+    time: z.string(),
+    location: z.string(),
+    maxAttendance: z.string()
+})
+
+type Experience = z.infer<typeof experienceSchema>
+
+const createPostSchema = experienceSchema.omit({id: true})
 
 const fakeExperiences: Experience[] = [
     {
@@ -33,15 +37,6 @@ const fakeExperiences: Experience[] = [
       }
 ]
 
-const createPostSchema = z.object({
-    title: z.string(),
-    desc: z.string(),
-    date: z.string(),
-    time: z.string(),
-    location: z.string(),
-    maxAttendance: z.string()
-})
-
 export const eventsRoute = new Hono()
 .get('/', (c) => {
     return c.json({ experience: fakeExperiences })
@@ -49,6 +44,7 @@ export const eventsRoute = new Hono()
 .post('/', zValidator('json', createPostSchema), async (c) => {
     const experience = await c.req.valid('json')
     fakeExperiences.push({...experience, id: fakeExperiences.length})
+    c.status(201)
     return c.json(experience)
 })
 .get('/:id{[0-9]+}', (c) => {
