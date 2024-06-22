@@ -1,12 +1,12 @@
+import EventCard from "./components/Custom/EventCard";
 
 
 function App() {
-
   return (
-    <>
-      <h1>Hello</h1>
-    </>
+    <EventCard />
   )
-}
+};
 
-export default App
+export default App;
+
+

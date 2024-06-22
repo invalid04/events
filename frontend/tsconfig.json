@@ -7,7 +7,7 @@
       ],
       "@server/*": [
         "../server/*"
-      ],
+      ]
     },
     "target": "ES2020",
     "useDefineForClassFields": true,
@@ -30,5 +30,4 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
 }
