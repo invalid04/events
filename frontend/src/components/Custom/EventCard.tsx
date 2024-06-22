@@ -18,7 +18,7 @@ export default function EventCard() {
     };
   
     return (
-      <div className="max-w-lg mx-auto"> {/* Container to center and limit width */}
+      <div className="max-w-lg"> {/* Container to center and limit width */}
         <Card className="h-full max-w-sm rounded-xl shadow-lg overflow-hidden">
           <img 
             className="w-full h-48 object-cover"
