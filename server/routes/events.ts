@@ -47,6 +47,10 @@ export const eventsRoute = new Hono()
     c.status(201)
     return c.json(experience)
 })
+.get('/total-events', (c) => {
+    const total = fakeExperiences.length
+    return c.json({ total })
+})
 .get('/:id{[0-9]+}', (c) => {
     const id = Number.parseInt(c.req.param('id'))
     const experience = fakeExperiences.find(experience => experience.id === id)
