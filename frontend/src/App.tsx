@@ -1,9 +1,13 @@
 import EventCard from "./components/Custom/EventCard";
+import TotalEvents from "./components/Custom/TotalEvents";
 
 
 function App() {
   return (
-    <EventCard />
+    <div>
+      <EventCard />
+      <TotalEvents />
+    </div>
   )
 };
 
