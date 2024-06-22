@@ -21,8 +21,10 @@ export default function TotalEvents() {
     }, [])
 
     return (
-        <div>
-            <p>{total}</p>
-        </div>
+        <Card className='max-w-sm flex justify-center'>
+            <CardHeader>
+                <CardTitle>Current Events: {total}</CardTitle>
+            </CardHeader>
+        </Card>
     )
 }

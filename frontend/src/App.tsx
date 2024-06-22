@@ -4,7 +4,7 @@ import TotalEvents from "./components/Custom/TotalEvents";
 
 function App() {
   return (
-    <div>
+    <div className='flex justify-center flex-col items-center'>
       <EventCard />
       <TotalEvents />
     </div>
