@@ -2,20 +2,146 @@ import { Input } from "../ui/input"
 import { Textarea } from "../ui/textarea"
 import { Button } from '../ui/button'
 
+import { useForm } from '@tanstack/react-form'
+import type { FieldApi } from '@tanstack/react-form'
+
+function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
+    return (
+      <>
+        {field.state.meta.touchedErrors ? (
+          <em>{field.state.meta.touchedErrors}</em>
+        ) : null}
+        {field.state.meta.isValidating ? 'Validating...' : null}
+      </>
+    )
+  }
+
 export default function CreateEvent() {
+
+    const form = useForm({
+        defaultValues: {
+            title: '',
+            desc: '',
+            date: '',
+            time: '',
+            location: '',
+            maxAttendance: '',
+        },
+        onSubmit: async ({ value }) => {
+            console.log(value)
+        },
+    })
+
   return (
-    <form className='max-w-xl m-auto flex flex-col gap-2'>
-        <Input type='text' id='title' placeholder='Title' />
+    <form 
+        className='max-w-xl m-auto flex flex-col gap-2'
+        onSubmit={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            form.handleSubmit()
+        }}
+    >
+        <form.Field 
+            name='title'
+            children={(field) => (
+                <>
+                    <Input 
+                        id={field.name}
+                        name={field.name}
+                        value={field.state.value}
+                        onBlur={field.handleBlur}
+                        placeholder='Title'
+                        onChange={(e) => field.handleChange(e.target.value)}
+                    />
+                    <FieldInfo field={field} />
+                </>
+            )}
+        />
 
-        <Textarea id='desc' placeholder='Type a description' />
+        <form.Field 
+            name='desc'
+            children={(field) => (
+                <>
+                    <Textarea
+                        id={field.name}
+                        name={field.name}
+                        value={field.state.value}
+                        onBlur={field.handleBlur}
+                        placeholder='description'
+                        onChange={(e) => field.handleChange(e.target.value)}
+                    />
+                    <FieldInfo field={field} />
+                </>
+            )}
+        />
 
-        <Input type='text' id='date' placeholder='Date' />
+        <form.Field 
+            name='date'
+            children={(field) => (
+                <>
+                    <Input 
+                        id={field.name}
+                        name={field.name}
+                        value={field.state.value}
+                        onBlur={field.handleBlur}
+                        placeholder='Date'
+                        onChange={(e) => field.handleChange(e.target.value)}
+                    />
+                    <FieldInfo field={field} />
+                </>
+            )}
+        />
 
-        <Input type='text' id='time' placeholder='Time' />
+        <form.Field 
+            name='time'
+            children={(field) => (
+                <>
+                    <Input 
+                        id={field.name}
+                        name={field.name}
+                        value={field.state.value}
+                        onBlur={field.handleBlur}
+                        placeholder='Time'
+                        onChange={(e) => field.handleChange(e.target.value)}
+                    />
+                    <FieldInfo field={field} />
+                </>
+            )}
+        />
 
-        <Input type='text' id='location' placeholder='Location' />
+        <form.Field 
+            name='location'
+            children={(field) => (
+                <>
+                    <Input 
+                        id={field.name}
+                        name={field.name}
+                        value={field.state.value}
+                        onBlur={field.handleBlur}
+                        placeholder='Location'
+                        onChange={(e) => field.handleChange(e.target.value)}
+                    />
+                    <FieldInfo field={field} />
+                </>
+            )}
+        />
 
-        <Input type='text' id='number' placeholder='no. of People' />
+        <form.Field 
+            name='maxAttendance'
+            children={(field) => (
+                <>
+                    <Input 
+                        id={field.name}
+                        name={field.name}
+                        value={field.state.value}
+                        onBlur={field.handleBlur}
+                        placeholder='# of people'
+                        onChange={(e) => field.handleChange(e.target.value)}
+                    />
+                    <FieldInfo field={field} />
+                </>
+            )}
+        />
 
         <Button
             type='submit'
