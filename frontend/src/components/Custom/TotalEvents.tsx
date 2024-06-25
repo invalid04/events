@@ -24,14 +24,15 @@ export default function TotalEvents() {
         queryFn: getTotalEvents
     })
 
-    if (isPending) return 'Loading...'
-
     if (error) return 'An error has occurred: ' + error.message
 
     return (
         <Card className='max-w-sm flex justify-center'>
             <CardHeader>
-                <CardTitle>Current Events: {data.total}</CardTitle>
+                <CardTitle>
+                    Current Events: {' '}
+                    {isPending ? '...': data.total}
+                </CardTitle>
             </CardHeader>
         </Card>
     )
