@@ -8,7 +8,7 @@ import { api } from '@/lib/api'
 import { useQuery } from '@tanstack/react-query'
 
 async function getTotalEvents() {
-    const res = await api.events['total-events'].$get()
+    const res = await api.experiences['total-experiences'].$get()
     if (!res.ok) {
         throw new Error('server error')
     }

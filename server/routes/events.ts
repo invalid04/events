@@ -37,7 +37,7 @@ const fakeExperiences: Experience[] = [
       }
 ]
 
-export const eventsRoute = new Hono()
+export const experiencesRoute = new Hono()
 .get('/', (c) => {
     return c.json({ experience: fakeExperiences })
 })
@@ -47,7 +47,7 @@ export const eventsRoute = new Hono()
     c.status(201)
     return c.json(experience)
 })
-.get('/total-events', (c) => {
+.get('/total-experiences', (c) => {
     const total = fakeExperiences.length
     return c.json({ total })
 })

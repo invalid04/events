@@ -1,13 +1,13 @@
 import { Hono } from 'hono'
 import { logger } from 'hono/logger'
-import { eventsRoute } from './routes/events'
+import { experiencesRoute } from './routes/events'
 
 const app = new Hono()
 
 app.use('*', logger())
 
 const apiRoutes = app.basePath('/api')
-.route('/events', eventsRoute)
+.route('/experiences', experiencesRoute)
 
 export default app
 

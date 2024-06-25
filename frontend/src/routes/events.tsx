@@ -8,7 +8,7 @@ export const Route = createFileRoute('/events')({
 })
 
 async function getAllEvents() {
-  const res = await api.events.$get()
+  const res = await api.experiences.$get()
   if (!res.ok) {
     throw new Error('server-error')
   }
