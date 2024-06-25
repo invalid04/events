@@ -21,11 +21,13 @@ export const authRoute = new Hono()
     return c.redirect(logoutUrl.toString())
 })
 .get('/me', async (c) => {
+    const manager = sessionManager(c)
     const isAuthenticated = await kindeClient.isAuthenticated(sessionManager(c))
-    return c.json(isAuthenticated)
-    if (isAuthenticated) {
+    
+    if (!isAuthenticated) {
+        return c.json({ error: 'Not Authorized' }, 401)
+    } 
 
-    }else {
-
-    }
+    const user = await kindeClient.getUserProfile(manager)
+    return c.json({ user })
 })
