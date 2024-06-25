@@ -9,7 +9,7 @@ app.use('*', logger())
 
 const apiRoutes = app.basePath('/api')
 .route('/experiences', experiencesRoute)
-.route('/auth', authRoute)
+.route('/', authRoute)
 
 export default app
 
