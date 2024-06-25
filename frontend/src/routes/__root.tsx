@@ -7,7 +7,9 @@ export const Route = createRootRoute({
       <div className="p-2 flex gap-2">
         <Navbar />
       </div>
-      <Outlet />
+      <div className='p-2 max-w-2xl m-auto'>
+        <Outlet />
+      </div>
     </>
   ),
 })
