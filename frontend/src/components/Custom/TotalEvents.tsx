@@ -4,25 +4,34 @@ import {
     CardHeader,
     CardTitle
 } from '../ui/card'
+
 import { api } from '@/lib/api'
+import { useQuery } from '@tanstack/react-query'
+
+async function getTotalEvents() {
+    const res = await api.events['total-events'].$get()
+    if (!res.ok) {
+        throw new Error('server error')
+    }
+    const data = await res.json()
+    return data
+}
 
 export default function TotalEvents() {
 
-    const [total, setTotal] = useState(0)
+    const { isPending, error, data } = useQuery({
+        queryKey: ['get-total-events'],
+        queryFn: getTotalEvents
+    })
 
-    useEffect(() => {
-        async function fetchTotal() {
-            const res = await api.events['total-events'].$get()
-            const data = await res.json()
-            setTotal(data.total)
-        }
-        fetchTotal()
-    }, [])
+    if (isPending) return 'Loading...'
+
+    if (error) return 'An error has occurred: ' + error.message
 
     return (
         <Card className='max-w-sm flex justify-center'>
             <CardHeader>
-                <CardTitle>Current Events: {total}</CardTitle>
+                <CardTitle>Current Events: {data.total}</CardTitle>
             </CardHeader>
         </Card>
     )
