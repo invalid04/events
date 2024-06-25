@@ -6,7 +6,7 @@ import viteReact from '@vitejs/plugin-react'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), TanStackRouterVite(), viteReact()],
+  plugins: [TanStackRouterVite(), viteReact()],
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dir, "./src"),
