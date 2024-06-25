@@ -11,12 +11,18 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as ProfileImport } from './routes/profile'
 import { Route as EventsImport } from './routes/events'
 import { Route as CreateEventImport } from './routes/create-event'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
+
+const ProfileRoute = ProfileImport.update({
+  path: '/profile',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const EventsRoute = EventsImport.update({
   path: '/events',
@@ -70,6 +76,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventsImport
       parentRoute: typeof rootRoute
     }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -80,6 +93,7 @@ export const routeTree = rootRoute.addChildren({
   AboutRoute,
   CreateEventRoute,
   EventsRoute,
+  ProfileRoute,
 })
 
 /* prettier-ignore-end */
@@ -93,7 +107,8 @@ export const routeTree = rootRoute.addChildren({
         "/",
         "/about",
         "/create-event",
-        "/events"
+        "/events",
+        "/profile"
       ]
     },
     "/": {
@@ -107,6 +122,9 @@ export const routeTree = rootRoute.addChildren({
     },
     "/events": {
       "filePath": "events.tsx"
+    },
+    "/profile": {
+      "filePath": "profile.tsx"
     }
   }
 }

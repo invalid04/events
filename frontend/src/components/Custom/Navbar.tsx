@@ -29,6 +29,13 @@ export default function Navbar() {
                     </Link>{' '}
                 </MenubarTrigger>
             </MenubarMenu>
+            <MenubarMenu>
+                <MenubarTrigger>
+                    <Link to="/profile">
+                        Profile
+                    </Link>{' '}
+                </MenubarTrigger>
+            </MenubarMenu>
         </Menubar>
     )
 }
