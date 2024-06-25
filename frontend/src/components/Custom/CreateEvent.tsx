@@ -5,6 +5,8 @@ import { Button } from '../ui/button'
 import { useForm } from '@tanstack/react-form'
 import type { FieldApi } from '@tanstack/react-form'
 
+import { api } from "@/lib/api"
+
 function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
     return (
       <>
@@ -28,7 +30,10 @@ export default function CreateEvent() {
             maxAttendance: '',
         },
         onSubmit: async ({ value }) => {
-            console.log(value)
+            const res = await api.experiences.$post({ json: value })
+            if (!res.ok) {
+                throw new Error('server error')
+            }
         },
     })
 
@@ -143,11 +148,14 @@ export default function CreateEvent() {
             )}
         />
 
-        <Button
-            type='submit'
-        >
-            Create
-        </Button>
+        <form.Subscribe
+            selector={(state) => [state.canSubmit, state.isSubmitting]}
+            children={([canSubmit, isSubmitting]) => (
+              <Button type="submit" disabled={!canSubmit}>
+                {isSubmitting ? '...' : 'Submit'}
+              </Button>
+            )}
+        />
     </form>
   )
 }

@@ -25,7 +25,9 @@ function Events() {
 
   return (
     <div>
-      {isPending ? '...' : JSON.stringify(data, null, 2)}
+      <pre>
+        {isPending ? '...' : JSON.stringify(data, null, 2)}
+      </pre>
     </div>
   )
 }
