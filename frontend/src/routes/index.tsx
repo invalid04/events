@@ -5,7 +5,7 @@ import TotalEvents from '@/components/Custom/TotalEvents'
 
 export const Route = createFileRoute('/')({
   component: () => (
-    <div>
+    <div className='flex flex-col gap-2 m-2'>
       <TotalEvents />
       <EventCard />
     </div>
