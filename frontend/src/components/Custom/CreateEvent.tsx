@@ -4,6 +4,7 @@ import { Button } from '../ui/button'
 
 import { useForm } from '@tanstack/react-form'
 import type { FieldApi } from '@tanstack/react-form'
+import { useNavigate } from "@tanstack/react-router"
 
 import { api } from "@/lib/api"
 
@@ -20,6 +21,8 @@ function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
 
 export default function CreateEvent() {
 
+    const navigate = useNavigate()
+
     const form = useForm({
         defaultValues: {
             title: '',
@@ -34,6 +37,7 @@ export default function CreateEvent() {
             if (!res.ok) {
                 throw new Error('server error')
             }
+            navigate({to: '/events'})
         },
     })
 

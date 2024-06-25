@@ -1,5 +1,4 @@
 import { createFileRoute } from '@tanstack/react-router'
-import EventCard from '@/components/Custom/EventCard'
 import { api } from '@/lib/api'
 import { useQuery } from '@tanstack/react-query'
 
