@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import {
     Card,
-    CardContent,
-    CardDescription,
     CardHeader,
     CardTitle
 } from '../ui/card'
+import { hc } from 'hono/client'
+import { type ApiRoutes } from '../../../../server/app'
+
+const client = hc<ApiRoutes>('/')
 
 export default function TotalEvents() {
 
@@ -13,7 +15,7 @@ export default function TotalEvents() {
 
     useEffect(() => {
         async function fetchTotal() {
-            const res = await fetch('/api/events/total-events')
+            const res = await client.api.events['total-events'].$get()
             const data = await res.json()
             setTotal(data.total)
         }
