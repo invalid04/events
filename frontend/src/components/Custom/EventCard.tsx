@@ -9,7 +9,7 @@ import { Button } from '../ui/button'
 import { api } from '@/lib/api';
 import { useQuery } from '@tanstack/react-query';
 
-async function getAllEvents() {
+async function getAllExperiences() {
   const res = await api.experiences.$get()
   if (!res.ok) {
     throw new Error('server-error')
@@ -18,14 +18,9 @@ async function getAllEvents() {
   return data
 }
 
-export default function EventCard() {
+export default function Experiences() {
     const [attendees, setAttendees] = useState(120); // Initial number of people going
     const [isGoing, setIsGoing] = useState(false);
-
-    const { isPending, error, data } = useQuery({
-      queryKey: ['get-all-events'],
-      queryFn: getAllEvents,
-    }) 
   
     const handleGoingClick = () => {
       if (!isGoing) {
@@ -35,6 +30,8 @@ export default function EventCard() {
     };
   
     return (
-      <div>as</div>
+      <div>
+        nothing
+      </div>
     );
 }
