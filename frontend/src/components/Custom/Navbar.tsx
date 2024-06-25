@@ -1,6 +1,5 @@
 import { 
     Menubar,
-    MenubarItem,
     MenubarMenu, 
     MenubarTrigger,
 } from "../ui/menubar"
