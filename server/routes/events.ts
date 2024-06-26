@@ -20,18 +20,18 @@ const createPostSchema = experienceSchema.omit({id: true})
 
 
 export const experiencesRoute = new Hono()
-.get('/', (c) => {
-    const experiences = db 
+.get('/', async (c) => {
+    const experiences = await db 
         .select()
         .from(experiencesTable)
         .orderBy(desc(experiencesTable.createdAt))
     
     return c.json({ experiences: experiences})
 })
-.get('/yourexp', getUser, (c) => {
+.get('/yourexp', getUser, async (c) => {
     const user = c.var.user
 
-    const experiences = db 
+    const experiences = await db 
         .select()
         .from(experiencesTable)
         .where(eq(experiencesTable.userId, user.id))
