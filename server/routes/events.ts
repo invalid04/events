@@ -4,6 +4,10 @@ import { zValidator } from '@hono/zod-validator'
 
 import { getUser } from '../kinde'
 
+import { db } from '../db'
+import { experiences as experiencesTable } from '../db/schema/experience'
+import { eq } from 'drizzle-orm'
+
 const experienceSchema = z.object({
     id: z.number().int().positive().min(1),
     title: z.string(),
@@ -45,6 +49,12 @@ export const experiencesRoute = new Hono()
 })
 .get('/', getUser, (c) => {
     const user = c.var.user
+
+    const experiences = db 
+        .select()
+        .from(experiencesTable)
+        .where(eq(experiencesTable.userId, user.id))
+
     return c.json({ experience: fakeExperiences })
 })
 .post('/', getUser, zValidator('json', createPostSchema), async (c) => {
