@@ -1,15 +1,25 @@
-import { createRootRoute, Outlet } from '@tanstack/react-router'
+import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
+import { type QueryClient } from '@tanstack/react-query'
+
 import Navbar from '@/components/Custom/Navbar'
 
-export const Route = createRootRoute({
-  component: () => (
+interface MyRouterContext {
+  queryClient: QueryClient
+}
+
+export const Route = createRootRouteWithContext<MyRouterContext>()({
+  component: Root,
+})
+
+function Root() {
+  return (
     <>
-      <div className="p-2 flex gap-2">
+      <div className='p-2 flex gap-2'>
         <Navbar />
       </div>
-      <div className='p-2 max-w-2xl m-auto'>
+      <div className='p-2 m-auto'>
         <Outlet />
       </div>
     </>
-  ),
-})
+  )
+}
