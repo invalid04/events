@@ -13,7 +13,7 @@ async function getTotalEvents() {
         throw new Error('server error')
     }
     const data = await res.json()
-    return data
+    return data.total[0].count
 }
 
 export default function TotalEvents() {
@@ -30,7 +30,7 @@ export default function TotalEvents() {
             <CardHeader>
                 <CardTitle>
                     Current Events: {' '}
-                    {isPending ? '...': data.total}
+                    {isPending ? '...': data}
                 </CardTitle>
             </CardHeader>
         </Card>

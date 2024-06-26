@@ -6,7 +6,7 @@ import { getUser } from '../kinde'
 
 import { db } from '../db'
 import { experiences as experiencesTable } from '../db/schema/experience'
-import { eq, desc } from 'drizzle-orm'
+import { eq, desc, count } from 'drizzle-orm'
 
 const experienceSchema = z.object({
     id: z.number().int().positive().min(1),
@@ -51,8 +51,11 @@ export const experiencesRoute = new Hono()
     c.status(201)
     return c.json(result)
 })
-.get('/total-experiences', (c) => {
-    const total = fakeExperiences.length
+.get('/total-experiences', async (c) => {
+    const total = await db
+        .select({ count: count() })
+        .from(experiencesTable)
+
     return c.json({ total })
 })
 .get('/:id{[0-9]+}', getUser, (c) => {
