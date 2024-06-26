@@ -6,7 +6,7 @@ import { getUser } from '../kinde'
 
 import { db } from '../db'
 import { experiences as experiencesTable } from '../db/schema/experience'
-import { eq } from 'drizzle-orm'
+import { eq, desc } from 'drizzle-orm'
 
 const experienceSchema = z.object({
     id: z.number().int().positive().min(1),
@@ -21,7 +21,12 @@ const createPostSchema = experienceSchema.omit({id: true})
 
 export const experiencesRoute = new Hono()
 .get('/', (c) => {
-    return c.json({ experience: fakeExperiences })
+    const experiences = db 
+        .select()
+        .from(experiencesTable)
+        .orderBy(desc(experiencesTable.createdAt))
+    
+    return c.json({ experiences: experiences})
 })
 .get('/yourexp', getUser, (c) => {
     const user = c.var.user
@@ -30,6 +35,7 @@ export const experiencesRoute = new Hono()
         .select()
         .from(experiencesTable)
         .where(eq(experiencesTable.userId, user.id))
+        .orderBy(desc(experiencesTable.createdAt))
 
     return c.json({ experiences: experiences })
 })
