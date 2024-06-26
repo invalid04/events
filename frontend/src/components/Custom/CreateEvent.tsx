@@ -7,9 +7,10 @@ import type { FieldApi } from '@tanstack/react-form'
 import { useNavigate } from "@tanstack/react-router"
 
 import { zodValidator } from '@tanstack/zod-form-adapter'
-import { z } from 'zod'
 
 import { api } from "@/lib/api"
+
+import { createExperienceSchema } from "@server/sharedTypes"
 
 function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
     return (
@@ -57,7 +58,7 @@ export default function CreateEvent() {
         <form.Field 
             name='title'
             validators={{
-                onChange: z.string().min(5)
+                onChange: createExperienceSchema.shape.title
             }}
             children={(field) => (
                 <>
@@ -144,6 +145,9 @@ export default function CreateEvent() {
 
         <form.Field 
             name='maxAttendance'
+            validators={{
+                onChange: createExperienceSchema.shape.maxAttendance
+            }}
             children={(field) => (
                 <>
                     <Input 

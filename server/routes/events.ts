@@ -7,7 +7,7 @@ import { db } from '../db'
 import { experiences as experiencesTable } from '../db/schema/experience'
 import { eq, desc, count, and } from 'drizzle-orm'
 
-import { createPostSchema } from '../sharedTypes'
+import { createExperienceSchema } from '../sharedTypes'
 
 export const experiencesRoute = new Hono()
 .get('/', async (c) => {
@@ -29,7 +29,7 @@ export const experiencesRoute = new Hono()
 
     return c.json({ experiences: experiences })
 })
-.post('/', getUser, zValidator('json', createPostSchema), async (c) => {
+.post('/', getUser, zValidator('json', createExperienceSchema), async (c) => {
     const experience = await c.req.valid('json')
     const user = c.var.user 
 
