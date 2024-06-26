@@ -2,6 +2,8 @@ import { Hono } from 'hono'
 import { z } from 'zod'
 import { zValidator } from '@hono/zod-validator'
 
+import { getUser } from '../kinde'
+
 const experienceSchema = z.object({
     id: z.number().int().positive().min(1),
     title: z.string(),
@@ -41,7 +43,11 @@ export const experiencesRoute = new Hono()
 .get('/', (c) => {
     return c.json({ experience: fakeExperiences })
 })
-.post('/', zValidator('json', createPostSchema), async (c) => {
+.get('/', getUser, (c) => {
+    const user = c.var.user
+    return c.json({ experience: fakeExperiences })
+})
+.post('/', getUser, zValidator('json', createPostSchema), async (c) => {
     const experience = await c.req.valid('json')
     fakeExperiences.push({...experience, id: fakeExperiences.length})
     c.status(201)
@@ -51,7 +57,7 @@ export const experiencesRoute = new Hono()
     const total = fakeExperiences.length
     return c.json({ total })
 })
-.get('/:id{[0-9]+}', (c) => {
+.get('/:id{[0-9]+}', getUser, (c) => {
     const id = Number.parseInt(c.req.param('id'))
     const experience = fakeExperiences.find(experience => experience.id === id)
     if (!experience) {
@@ -59,7 +65,7 @@ export const experiencesRoute = new Hono()
     }
     return c.json({experience})
 })
-.delete('/:id{[0-9]+}', (c) => {
+.delete('/:id{[0-9]+}', getUser, (c) => {
     const id = Number.parseInt(c.req.param('id'))
     const index = fakeExperiences.findIndex(experience => experience.id === id)
     if (index === -1) {
