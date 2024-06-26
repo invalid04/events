@@ -13,4 +13,4 @@ const apiRoutes = app.basePath('/api')
 
 export default app
 
-export type ApiRoutes = typeof apiRoutes
+export type ApiRoutes = typeof apiRoutes 
