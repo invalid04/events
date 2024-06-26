@@ -18,18 +18,6 @@ type Experience = z.infer<typeof experienceSchema>
 
 const createPostSchema = experienceSchema.omit({id: true})
 
-const fakeExperiences: Experience[] = [
-    {
-        "id": 1,
-        "title": "Movie Night",
-        "maxAttendance": "100"
-      },
-      {
-        "id": 2,
-        "title": "Board Game Club",
-        "maxAttendance": "15"
-      }
-]
 
 export const experiencesRoute = new Hono()
 .get('/', (c) => {
