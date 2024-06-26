@@ -1,4 +1,5 @@
 import { numeric, pgTable, serial, text, index, timestamp } from "drizzle-orm/pg-core";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
 export const experiences = pgTable('experiences', {
     id: serial('id').primaryKey(),
@@ -12,3 +13,7 @@ export const experiences = pgTable('experiences', {
     }
 } 
 )
+
+export const insertExperiencesSchema = createInsertSchema(experiences)
+
+export const selectExperiencesSchema = createSelectSchema(experiences)

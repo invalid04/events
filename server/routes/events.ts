@@ -4,7 +4,7 @@ import { zValidator } from '@hono/zod-validator'
 import { getUser } from '../kinde'
 
 import { db } from '../db'
-import { experiences as experiencesTable } from '../db/schema/experience'
+import { experiences as experiencesTable, insertExperiencesSchema } from '../db/schema/experience'
 import { eq, desc, count, and } from 'drizzle-orm'
 
 import { createExperienceSchema } from '../sharedTypes'
@@ -33,10 +33,15 @@ export const experiencesRoute = new Hono()
     const experience = await c.req.valid('json')
     const user = c.var.user 
 
-    const result = await db.insert(experiencesTable).values({
+    const validatedExperience = insertExperiencesSchema.parse({
         ...experience,
         userId: user.id
-    }).returning()
+    })
+
+    const result = await db
+        .insert(experiencesTable)
+        .values(validatedExperience)
+        .returning()
 
     c.status(201)
     return c.json(result)
