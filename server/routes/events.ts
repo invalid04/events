@@ -1,5 +1,4 @@
 import { Hono } from 'hono'
-import { z } from 'zod'
 import { zValidator } from '@hono/zod-validator'
 
 import { getUser } from '../kinde'
@@ -8,16 +7,7 @@ import { db } from '../db'
 import { experiences as experiencesTable } from '../db/schema/experience'
 import { eq, desc, count, and } from 'drizzle-orm'
 
-const experienceSchema = z.object({
-    id: z.number().int().positive().min(1),
-    title: z.string(),
-    maxAttendance: z.string()
-})
-
-type Experience = z.infer<typeof experienceSchema>
-
-const createPostSchema = experienceSchema.omit({id: true})
-
+import { createPostSchema } from '../sharedTypes'
 
 export const experiencesRoute = new Hono()
 .get('/', async (c) => {
