@@ -55,7 +55,7 @@ export const experiencesRoute = new Hono()
         .from(experiencesTable)
         .where(eq(experiencesTable.userId, user.id))
 
-    return c.json({ experience: fakeExperiences })
+    return c.json({ experiences: experiences })
 })
 .post('/', getUser, zValidator('json', createPostSchema), async (c) => {
     const experience = await c.req.valid('json')
