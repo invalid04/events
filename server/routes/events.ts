@@ -1,3 +1,4 @@
+import { experiences } from './../db/schema/experience';
 import { Hono } from 'hono'
 import { z } from 'zod'
 import { zValidator } from '@hono/zod-validator'
@@ -6,7 +7,7 @@ import { getUser } from '../kinde'
 
 import { db } from '../db'
 import { experiences as experiencesTable } from '../db/schema/experience'
-import { eq, desc, count } from 'drizzle-orm'
+import { eq, desc, count, and } from 'drizzle-orm'
 
 const experienceSchema = z.object({
     id: z.number().int().positive().min(1),
@@ -58,21 +59,32 @@ export const experiencesRoute = new Hono()
 
     return c.json({ total })
 })
-.get('/:id{[0-9]+}', getUser, (c) => {
+.get('/:id{[0-9]+}', getUser, async (c) => {
     const id = Number.parseInt(c.req.param('id'))
-    const experience = fakeExperiences.find(experience => experience.id === id)
+
+    const experience = await db
+        .select()
+        .from(experiencesTable)
+        .where(eq(experiencesTable.id, id))
+        .then(res => res[0])
+
     if (!experience) {
         return c.notFound()
     }
     return c.json({experience})
 })
-.delete('/:id{[0-9]+}', getUser, (c) => {
+.delete('/:id{[0-9]+}', getUser, async (c) => {
     const id = Number.parseInt(c.req.param('id'))
-    const index = fakeExperiences.findIndex(experience => experience.id === id)
-    if (index === -1) {
+    const user = c.var.user
+
+    const experience = await db
+        .delete(experiencesTable)
+        .where(and(eq(experiencesTable.userId, user.id), eq(experiencesTable.id, id)))
+        .returning()
+        .then(res => res[0])
+
+    if (!experience) {
         return c.notFound()
     }
-
-    const deletedExperience = fakeExperiences.splice(index, 1)[0]
-    return c.json({ experience: deletedExperience })
+    return c.json({ experience: experience })
 })
