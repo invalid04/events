@@ -11,10 +11,6 @@ import { eq } from 'drizzle-orm'
 const experienceSchema = z.object({
     id: z.number().int().positive().min(1),
     title: z.string(),
-    desc: z.string(),
-    date: z.string(),
-    time: z.string(),
-    location: z.string(),
     maxAttendance: z.string()
 })
 
@@ -26,19 +22,11 @@ const fakeExperiences: Experience[] = [
     {
         "id": 1,
         "title": "Movie Night",
-        "desc": "Screening of Casablanca",
-        "date": "2024-07-12",
-        "time": "19:00",
-        "location": "Central Park",
         "maxAttendance": "100"
       },
       {
         "id": 2,
         "title": "Board Game Club",
-        "desc": "Bring your favorite game to share!",
-        "date": "2024-06-28",
-        "time": "18:00",
-        "location": "Community Center",
         "maxAttendance": "15"
       }
 ]
@@ -47,7 +35,7 @@ export const experiencesRoute = new Hono()
 .get('/', (c) => {
     return c.json({ experience: fakeExperiences })
 })
-.get('/', getUser, (c) => {
+.get('/yourexp', getUser, (c) => {
     const user = c.var.user
 
     const experiences = db 
@@ -59,9 +47,15 @@ export const experiencesRoute = new Hono()
 })
 .post('/', getUser, zValidator('json', createPostSchema), async (c) => {
     const experience = await c.req.valid('json')
-    fakeExperiences.push({...experience, id: fakeExperiences.length})
+    const user = c.var.user 
+
+    const result = await db.insert(experiencesTable).values({
+        ...experience,
+        userId: user.id
+    }).returning()
+
     c.status(201)
-    return c.json(experience)
+    return c.json(result)
 })
 .get('/total-experiences', (c) => {
     const total = fakeExperiences.length
