@@ -61,7 +61,7 @@ export default function CreateEvent() {
                 onChange: createExperienceSchema.shape.title
             }}
             children={(field) => (
-                <>
+                <div>
                     <Input 
                         id={field.name}
                         name={field.name}
@@ -71,14 +71,14 @@ export default function CreateEvent() {
                         onChange={(e) => field.handleChange(e.target.value)}
                     />
                     <FieldInfo field={field} />
-                </>
+                </div>
             )}
         />
 
         <form.Field 
             name='desc'
             children={(field) => (
-                <>
+                <div>
                     <Textarea
                         id={field.name}
                         name={field.name}
@@ -88,14 +88,14 @@ export default function CreateEvent() {
                         onChange={(e) => field.handleChange(e.target.value)}
                     />
                     <FieldInfo field={field} />
-                </>
+                </div>
             )}
         />
 
         <form.Field 
             name='date'
             children={(field) => (
-                <>
+                <div>
                     <Input 
                         id={field.name}
                         name={field.name}
@@ -105,14 +105,14 @@ export default function CreateEvent() {
                         onChange={(e) => field.handleChange(e.target.value)}
                     />
                     <FieldInfo field={field} />
-                </>
+                </div>
             )}
         />
 
         <form.Field 
             name='time'
             children={(field) => (
-                <>
+                <div>
                     <Input 
                         id={field.name}
                         name={field.name}
@@ -122,14 +122,14 @@ export default function CreateEvent() {
                         onChange={(e) => field.handleChange(e.target.value)}
                     />
                     <FieldInfo field={field} />
-                </>
+                </div>
             )}
         />
 
         <form.Field 
             name='location'
             children={(field) => (
-                <>
+                <div>
                     <Input 
                         id={field.name}
                         name={field.name}
@@ -139,7 +139,7 @@ export default function CreateEvent() {
                         onChange={(e) => field.handleChange(e.target.value)}
                     />
                     <FieldInfo field={field} />
-                </>
+                </div>
             )}
         />
 
@@ -149,7 +149,7 @@ export default function CreateEvent() {
                 onChange: createExperienceSchema.shape.maxAttendance
             }}
             children={(field) => (
-                <>
+                <div>
                     <Input 
                         id={field.name}
                         name={field.name}
@@ -159,7 +159,7 @@ export default function CreateEvent() {
                         onChange={(e) => field.handleChange(e.target.value)}
                     />
                     <FieldInfo field={field} />
-                </>
+                </div>
             )}
         />
 
