@@ -58,7 +58,7 @@ export default function CreateEvent() {
             const existingExperiences = await queryClient.ensureQueryData(eventQueryOptions)
             queryClient.setQueryData(eventQueryOptions.queryKey, ({
                 ...existingExperiences,
-                experiences: [...existingExperiences.experiences, newExperience]
+                experiences: [newExperience ,...existingExperiences.experiences]
             }))
 
             navigate({to: '/events'})
