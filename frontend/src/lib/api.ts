@@ -64,3 +64,15 @@ export const loadingCreateExperienceQueryOptions = queryOptions<{
     },
     staleTime: Infinity,
 })
+
+// delete event function
+
+export async function deleteExpense({ id } : { id: number }){
+    const res = await api.experiences[':id{[0-9]+}'].$delete({ 
+        param: { id: id.toString() } 
+    })
+
+    if (!res.ok) {
+        throw new Error('server error')
+    }
+}

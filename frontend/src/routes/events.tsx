@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { eventQueryOptions, loadingCreateExperienceQueryOptions } from '@/lib/api'
 import { useQuery } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 
 import { Button } from '@/components/ui/button'
 import { Trash } from 'lucide-react'
@@ -44,6 +45,9 @@ function StyledEvents() {
 }
 
 function ExperienceDeleteButton({id} : { id: number }) {
+
+  
+
   return (
     <Button className='h-full items-center justify-center'>
       <Trash />
