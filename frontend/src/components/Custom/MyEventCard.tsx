@@ -12,12 +12,6 @@ export function MyEventCard() {
     if (error) return '...'
 
     return (
-        <ul>
-            {events.map(event => (
-                <h3>{event.title}</h3>
-                <p>{event.date}</p>
-                <p>{event.maxAttendance}</p>
-            ))}
-        </ul>
+        <h1>nothing</h1>
     )
 }

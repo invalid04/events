@@ -10,6 +10,8 @@ import { eq, desc, count, and } from 'drizzle-orm'
 import { createExperienceSchema } from '../sharedTypes'
 
 export const experiencesRoute = new Hono()
+
+// get all experiences
 .get('/', async (c) => {
     const experiences = await db 
         .select()
@@ -18,6 +20,8 @@ export const experiencesRoute = new Hono()
     
     return c.json({ experiences: experiences})
 })
+
+// add experience
 .post('/', getUser, zValidator('json', createExperienceSchema), async (c) => {
     const experience = await c.req.valid('json')
     const user = c.var.user 
@@ -36,6 +40,8 @@ export const experiencesRoute = new Hono()
     c.status(201)
     return c.json(result)
 })
+
+// get total number of experiences
 .get('/total-experiences', async (c) => {
     const total = await db
         .select({ count: count() })
@@ -43,14 +49,15 @@ export const experiencesRoute = new Hono()
 
     return c.json({ total })
 })
-.get('/:id{[0-9]+}', getUser, async (c) => {
-    const user = c.var.user
+
+// get specific experience by id
+.get('/:id{[0-9]+}', async (c) => {
     const id = Number.parseInt(c.req.param('id'))
 
     const experience = await db
         .select()
         .from(experiencesTable)
-        .where(and(eq(experiencesTable.userId, user.id), eq(experiencesTable.id, id)))
+        .where(eq(experiencesTable.id, id))
         .then(res => res[0])
 
     if (!experience) {
@@ -58,6 +65,8 @@ export const experiencesRoute = new Hono()
     }
     return c.json({experience})
 })
+
+// delete experience
 .delete('/:id{[0-9]+}', getUser, async (c) => {
     const id = Number.parseInt(c.req.param('id'))
     const user = c.var.user
@@ -72,4 +81,17 @@ export const experiencesRoute = new Hono()
         return c.notFound()
     }
     return c.json({ experience: experience })
+})
+
+// get experience user id
+.get('/:id{[0-9]+}', getUser, async (c) => {
+    const user = c.var.user
+
+    const experiences = await db 
+        .select()
+        .from(experiencesTable)
+        .where(eq(experiencesTable.userId, user.id))
+        .orderBy(desc(experiencesTable.createdAt))
+
+    return c.json({ experiences: experiences })
 })
