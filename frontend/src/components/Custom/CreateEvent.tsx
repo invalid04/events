@@ -1,6 +1,14 @@
 import { Input } from "../ui/input"
 import { Textarea } from "../ui/textarea"
 import { Button } from '../ui/button'
+import { CalendarIcon } from '@radix-ui/react-icons'
+import { cn } from '@/lib/utils'
+import { Calendar } from '@/components/ui/calendar'
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+  } from "@/components/ui/popover"
 
 import { useForm } from '@tanstack/react-form'
 import type { FieldApi } from '@tanstack/react-form'
@@ -96,14 +104,26 @@ export default function CreateEvent() {
             name='date'
             children={(field) => (
                 <div>
-                    <Input 
-                        id={field.name}
-                        name={field.name}
-                        value={field.state.value}
-                        onBlur={field.handleBlur}
-                        placeholder='Date'
-                        onChange={(e) => field.handleChange(e.target.value)}
-                    />
+                    <Popover>
+                        <PopoverTrigger asChild>
+                            <Button
+                                variant={'outline'}
+                                className={cn('w-full justify-start text-left font-normal',
+                                                'text-muted-foreground'
+                                )}
+                            >
+                                <CalendarIcon className='mr-2 h-4 w-4' />
+                                <span>Pick a Date</span>
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent align='start'>
+                                <Calendar 
+                                    mode='single'
+                                    selected={field.state.value}
+                                    onSelect={(e) => field.handleChange(e.target.value)}
+                                />
+                        </PopoverContent>
+                    </Popover>
                     <FieldInfo field={field} />
                 </div>
             )}
