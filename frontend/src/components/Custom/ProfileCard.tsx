@@ -1,6 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
+import { Separator } from "../ui/separator";
 
 import { useQuery } from "@tanstack/react-query";
 
@@ -24,7 +25,7 @@ export function ProfileCard() {
                 </Avatar>
                 <h1>{data.user.given_name}</h1>
             </div>
-            <hr className='w-full border-t my-4' />
+            <Separator className='w-full my-4' />
             <Button asChild className='w-full'>
                 <a href='/api/logout'>Logout</a>
             </Button>
