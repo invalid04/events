@@ -2,6 +2,7 @@ import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
 import { type QueryClient } from '@tanstack/react-query'
 
 import Navbar from '@/components/Custom/Navbar'
+import { Toaster } from 'sonner'
 
 interface MyRouterContext {
   queryClient: QueryClient
@@ -20,6 +21,7 @@ function Root() {
       <div className='p-2 m-auto'>
         <Outlet />
       </div>
+      <Toaster />
     </>
   )
 }

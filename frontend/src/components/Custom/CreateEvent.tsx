@@ -10,6 +10,8 @@ import {
     PopoverTrigger,
   } from "@/components/ui/popover"
 
+import { toast } from "sonner"
+
 import { useForm } from '@tanstack/react-form'
 import type { FieldApi } from '@tanstack/react-form'
 import { useNavigate } from "@tanstack/react-router"
@@ -63,8 +65,14 @@ export default function CreateEvent() {
                     ...existingExperiences,
                     experiences: [newExperience, ...existingExperiences.experiences],
                 })
+
+                toast('Success', {
+                    description: `${newExperience.title} has been created`
+                })
             } catch (error) {
-                
+                toast('Error', {
+                    description: 'Failed to create event'
+                })
             } finally {
                 queryClient.setQueryData(loadingCreateExperienceQueryOptions.queryKey, {})
             }
