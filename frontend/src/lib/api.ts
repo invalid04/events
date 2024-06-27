@@ -76,3 +76,19 @@ export async function deleteExperience({ id } : { id: number }){
         throw new Error('server error')
     }
 }
+
+// user event query
+
+export async function getMyEvents(id: number) {
+    try {
+        const res = await api.experiences[':id{[0-9]+}'].$get({ param: { id: id.toString() }})
+        if (!res.ok) {
+            throw new Error('server error')
+        }
+        const data = await res.json()
+        return data
+    } catch (error) {
+        console.error('error')
+        throw new Error('Failed to fetch event')
+    }
+}
