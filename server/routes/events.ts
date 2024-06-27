@@ -54,13 +54,13 @@ export const experiencesRoute = new Hono()
 
     return c.json({ total })
 })
-.get('/:id{[0-9]+}', getUser, async (c) => {
-    const id = Number.parseInt(c.req.param('id'))
+.get('/my-events', getUser, async (c) => {
+    const user = c.var.user
 
     const experience = await db
         .select()
         .from(experiencesTable)
-        .where(eq(experiencesTable.id, id))
+        .where(eq(experiencesTable.userId, user.id))
         .then(res => res[0])
 
     if (!experience) {

@@ -45,6 +45,25 @@ export const eventQueryOptions = queryOptions({
     staleTime: 1000 * 60 * 5,
 })
 
+// user event query
+
+export async function getMyEvents(id: number) {
+    const res = await api.experiences[':id{[0-9]+}'].$get({ param: { id: id.toString() }})
+    if (!res.ok) {
+        throw new Error('server error')
+    }
+    
+    const data = await res.json()
+    return data
+}
+
+export const myEventQueryOptions = queryOptions({
+    queryKey: ['get-my-events'],
+    queryFn: getMyEvents,
+})
+
+// create experience
+
 export async function createExperience({ value } : { value: CreateExperience }) {
     const res = await api.experiences.$post({ json: value })
     if (!res.ok) {
@@ -74,21 +93,5 @@ export async function deleteExperience({ id } : { id: number }){
 
     if (!res.ok) {
         throw new Error('server error')
-    }
-}
-
-// user event query
-
-export async function getMyEvents(id: number) {
-    try {
-        const res = await api.experiences[':id{[0-9]+}'].$get({ param: { id: id.toString() }})
-        if (!res.ok) {
-            throw new Error('server error')
-        }
-        const data = await res.json()
-        return data
-    } catch (error) {
-        console.error('error')
-        throw new Error('Failed to fetch event')
     }
 }
