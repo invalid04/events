@@ -35,12 +35,18 @@ function StyledEvents() {
               <p>{experience.maxAttendance}</p>
               <p>{experience.date}</p>
             </div>
-            <Button className='h-full items-center justify-center'>
-              <Trash />
-            </Button>
+            <ExperienceDeleteButton id={experience.id} />
           </Card>
         ))
       }
     </div>
+  )
+}
+
+function ExperienceDeleteButton({id} : { id: number }) {
+  return (
+    <Button className='h-full items-center justify-center'>
+      <Trash />
+    </Button>
   )
 }
