@@ -15,7 +15,7 @@ export function ProfileCard() {
     if (error) return 'not logged in'
 
     return (
-        <Card className='flex flex-col max-w-sm h-34 items-center justify-between p-4 md:mb-6 mx-auto md:mx-0'>
+        <Card className='flex flex-col max-w-sm h-34 items-center justify-between p-4 md:mb-6 mx-auto md:mx-0 mt-2'>
             <div className='flex items-center space-x-4'>
                 <Avatar>
                     {data.user.picture && (

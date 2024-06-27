@@ -3,7 +3,7 @@ import { Button } from "../ui/button";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { myEventQueryOptions, eventQueryOptions } from "@/lib/api";
+import { myEventQueryOptions } from "@/lib/api";
 
 import { deleteExperience } from '@/lib/api'
 
@@ -54,7 +54,7 @@ function ExperienceDeleteButton({id} : { id: number }) {
         })
   
         queryClient.setQueryData(
-          eventQueryOptions.queryKey,
+          myEventQueryOptions.queryKey,
           (existingExperiences) => ({
             ...existingExperiences,
             experiences: existingExperiences!.experiences.filter((e) => e.id !== id),
