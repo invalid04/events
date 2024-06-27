@@ -1,8 +1,15 @@
-import { Card, CardTitle, CardContent, CardHeader } from "../ui/card";
+import { Card, CardTitle, CardContent, CardHeader, CardFooter } from "../ui/card";
+import { Button } from "../ui/button";
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { myEventQueryOptions } from "@/lib/api";
+import { myEventQueryOptions, eventQueryOptions } from "@/lib/api";
+
+import { deleteExperience } from '@/lib/api'
+
+import { Trash } from 'lucide-react'
+
+import { toast } from 'sonner'
 
 export function MyEventCard() {
 
@@ -22,8 +29,48 @@ export function MyEventCard() {
                         <p>Max Attendance: {experience.maxAttendance}</p>
                         <p>Date: {experience.date}</p>
                     </CardContent>
+                    <CardFooter>
+                        <ExperienceDeleteButton id={experience.id} />
+                    </CardFooter>
                 </Card>
             ))}
         </div>
     )
 }
+
+function ExperienceDeleteButton({id} : { id: number }) {
+    const queryClient = useQueryClient()
+  
+    const mutation = useMutation({
+      mutationFn: deleteExperience,
+      onError: () => {
+          toast('Error', {
+            description: 'Failed to delete experience'
+          })
+      },
+      onSuccess: () => {
+        toast('Success', {
+          description: `Experience has been deleted`
+        })
+  
+        queryClient.setQueryData(
+          eventQueryOptions.queryKey,
+          (existingExperiences) => ({
+            ...existingExperiences,
+            experiences: existingExperiences!.experiences.filter((e) => e.id !== id),
+          })
+        )
+  
+      }
+    })
+  
+    return (
+      <Button
+        disabled={mutation.isPending}
+        onClick={() => mutation.mutate({ id })}
+        variant='outline'
+      >
+        <Trash />
+      </Button>
+    )
+  }
