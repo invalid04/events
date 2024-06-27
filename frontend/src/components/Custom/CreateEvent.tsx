@@ -9,6 +9,7 @@ import {
     PopoverContent,
     PopoverTrigger,
   } from "@/components/ui/popover"
+import { format } from "date-fns"
 
 import { useForm } from '@tanstack/react-form'
 import type { FieldApi } from '@tanstack/react-form'
@@ -113,7 +114,10 @@ export default function CreateEvent() {
                                 )}
                             >
                                 <CalendarIcon className='mr-2 h-4 w-4' />
-                                <span>Pick a Date</span>
+                                {field.state.value
+                                    ? new Date(field.state.value).toLocaleDateString() 
+                                    : 'Pick a date'
+                                }
                             </Button>
                         </PopoverTrigger>
                         <PopoverContent align='start'>
