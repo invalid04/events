@@ -40,7 +40,7 @@ export default function CreateEvent() {
         defaultValues: {
             title: '',
             desc: '',
-            date: '',
+            date: new Date().toISOString(),
             time: '',
             location: '',
             maxAttendance: '',
@@ -119,8 +119,8 @@ export default function CreateEvent() {
                         <PopoverContent align='start'>
                                 <Calendar 
                                     mode='single'
-                                    selected={field.state.value}
-                                    onSelect={(e) => field.handleChange(e.target.value)}
+                                    selected={new Date(field.state.value)}
+                                    onSelect={(date) => field.handleChange((date ?? new Date()).toISOString())}
                                 />
                         </PopoverContent>
                     </Popover>
