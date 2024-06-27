@@ -16,8 +16,10 @@ export function ProfileCard() {
     return (
         <Card className='w-36 h-16 flex justify-center items-center gap-4'>
             <Avatar>
-                <AvatarImage src={data.user.picture ?? undefined} alt='profile pic' />
-                <AvatarFallback>CN</AvatarFallback>
+                {data.user.picture && (
+                    <AvatarImage src={data.user.picture} alt={data.user.given_name} />
+                )}
+                <AvatarFallback>{data.user.given_name}</AvatarFallback>
             </Avatar>
             <h1>{data.user.given_name}</h1>
         </Card>
