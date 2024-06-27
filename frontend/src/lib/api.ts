@@ -42,3 +42,13 @@ export const eventQueryOptions = queryOptions({
     queryFn: getAllEvents,
     staleTime: 1000 * 60 * 5,
 })
+
+export async function createExperience({ value }) {
+    const res = await api.experiences.$post({ json: value })
+    if (!res.ok) {
+        throw new Error('server error')
+    }
+
+    const newExperience = await res.json()
+    return newExperience
+}

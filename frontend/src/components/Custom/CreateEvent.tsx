@@ -52,19 +52,12 @@ export default function CreateEvent() {
                 eventQueryOptions
             )
 
-            const res = await api.experiences.$post({ json: value })
-            if (!res.ok) {
-                throw new Error('server error')
-            }
-
-            const newExperience = await res.json()
+            navigate({to: '/events'})
 
             queryClient.setQueryData(eventQueryOptions.queryKey, ({
                 ...existingExperiences,
                 experiences: [newExperience ,...existingExperiences.experiences]
             }))
-
-            navigate({to: '/events'})
         },
     })
 
