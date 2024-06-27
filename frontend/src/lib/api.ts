@@ -67,7 +67,7 @@ export const loadingCreateExperienceQueryOptions = queryOptions<{
 
 // delete event function
 
-export async function deleteExpense({ id } : { id: number }){
+export async function deleteExperience({ id } : { id: number }){
     const res = await api.experiences[':id{[0-9]+}'].$delete({ 
         param: { id: id.toString() } 
     })

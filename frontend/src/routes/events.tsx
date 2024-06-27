@@ -3,10 +3,13 @@ import { eventQueryOptions, loadingCreateExperienceQueryOptions } from '@/lib/ap
 import { useQuery } from '@tanstack/react-query'
 import { useMutation } from '@tanstack/react-query'
 
+import { deleteExperience } from '@/lib/api'
+
 import { Button } from '@/components/ui/button'
 import { Trash } from 'lucide-react'
 import { Card } from '@/components/ui/card'
-import { experiences } from '@server/db/schema/experience'
+
+import { toast } from 'sonner'
 
 export const Route = createFileRoute('/events')({
   component: StyledEvents,
@@ -46,10 +49,25 @@ function StyledEvents() {
 
 function ExperienceDeleteButton({id} : { id: number }) {
 
-  
+  const mutation = useMutation({
+    mutationFn: deleteExperience,
+    onError: () => {
+        toast('Error', {
+          description: 'Failed to delete experience'
+        })
+    },
+    onSuccess: () => {
+      toast('Success', {
+        description: `${id} has been deleted`
+      })
+    }
+  })
 
   return (
-    <Button className='h-full items-center justify-center'>
+    <Button
+      onClick={() => mutation.mutate({ id })}
+      variant='outline'
+    >
       <Trash />
     </Button>
   )
