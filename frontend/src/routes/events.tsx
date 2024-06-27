@@ -15,21 +15,6 @@ async function getAllEvents() {
   return data
 }
 
-function Events() {
-
-  const { isPending, error, data } = useQuery({
-    queryKey: ['get-all-events'],
-    queryFn: getAllEvents,
-  }) 
-
-  return (
-    <div>
-      <pre>
-        {isPending ? '...' : JSON.stringify(data, null, 2)}
-      </pre>
-    </div>
-  )
-}
 
 function StyledEvents() {
   const { isPending, error, data } = useQuery({
