@@ -29,7 +29,7 @@ function StyledEvents() {
       {isPending 
         ? '...' 
         : data.experiences.map((experience) => (
-          <div>
+          <div className='p-2'>
             <p>{experience.title}</p>
             <p>{experience.maxAttendance}</p>
             <p>{experience.date}</p>
