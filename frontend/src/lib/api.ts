@@ -32,7 +32,7 @@ export const userQueryOptions = queryOptions({
 async function getAllEvents() {
     const res = await api.experiences.$get()
     if (!res.ok) {
-      throw new Error('server-error')
+      throw new Error('server error')
     }
 
     const data = await res.json()
@@ -47,19 +47,19 @@ export const eventQueryOptions = queryOptions({
 
 // user event query
 
-export async function getMyEvents(id: number) {
-    const res = await api.experiences[':id{[0-9]+}'].$get({ param: { id: id.toString() }})
+export async function getMyEvents() {
+    const res = await api.experiences['my-events'].$get()
     if (!res.ok) {
         throw new Error('server error')
     }
-    
+
     const data = await res.json()
     return data
 }
 
 export const myEventQueryOptions = queryOptions({
     queryKey: ['get-my-events'],
-    queryFn: getMyEvents,
+    queryFn: getMyEvents
 })
 
 // create experience
