@@ -18,17 +18,6 @@ export const experiencesRoute = new Hono()
     
     return c.json({ experiences: experiences})
 })
-.get('/yourexp', getUser, async (c) => {
-    const user = c.var.user
-
-    const experiences = await db 
-        .select()
-        .from(experiencesTable)
-        .where(eq(experiencesTable.userId, user.id))
-        .orderBy(desc(experiencesTable.createdAt))
-
-    return c.json({ experiences: experiences })
-})
 .post('/', getUser, zValidator('json', createExperienceSchema), async (c) => {
     const experience = await c.req.valid('json')
     const user = c.var.user 
@@ -54,13 +43,14 @@ export const experiencesRoute = new Hono()
 
     return c.json({ total })
 })
-.get('/my-events', getUser, async (c) => {
+.get('/:id{[0-9]+}', getUser, async (c) => {
     const user = c.var.user
+    const id = Number.parseInt(c.req.param('id'))
 
     const experience = await db
         .select()
         .from(experiencesTable)
-        .where(eq(experiencesTable.userId, user.id))
+        .where(and(eq(experiencesTable.userId, user.id), eq(experiencesTable.id, id)))
         .then(res => res[0])
 
     if (!experience) {
