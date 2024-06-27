@@ -16,7 +16,8 @@ import { useNavigate } from "@tanstack/react-router"
 
 import { zodValidator } from '@tanstack/zod-form-adapter'
 
-import { api } from "@/lib/api"
+import { api, eventQueryOptions } from "@/lib/api"
+import { useQueryClient } from "@tanstack/react-query"
 
 import { createExperienceSchema } from "@server/sharedTypes"
 
@@ -33,6 +34,7 @@ function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
 
 export default function CreateEvent() {
 
+    const queryClient = useQueryClient()
     const navigate = useNavigate()
 
     const form = useForm({
@@ -50,6 +52,15 @@ export default function CreateEvent() {
             if (!res.ok) {
                 throw new Error('server error')
             }
+
+            const newExperience = await res.json()
+
+            const existingExperiences = await queryClient.ensureQueryData(eventQueryOptions)
+            queryClient.setQueryData(eventQueryOptions.queryKey, ({
+                ...existingExperiences,
+                experiences: [...existingExperiences.experiences, newExperience]
+            }))
+
             navigate({to: '/events'})
         },
     })

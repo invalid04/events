@@ -42,6 +42,7 @@ export const experiencesRoute = new Hono()
         .insert(experiencesTable)
         .values(validatedExperience)
         .returning()
+        .then((res) => res[0])
 
     c.status(201)
     return c.json(result)
