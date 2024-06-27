@@ -16,7 +16,7 @@ import { useNavigate } from "@tanstack/react-router"
 
 import { zodValidator } from '@tanstack/zod-form-adapter'
 
-import { createExperience, eventQueryOptions } from "@/lib/api"
+import { createExperience, eventQueryOptions, loadingCreateExperienceQueryOptions } from "@/lib/api"
 import { useQueryClient } from "@tanstack/react-query"
 
 import { createExperienceSchema } from "@server/sharedTypes"
@@ -54,12 +54,21 @@ export default function CreateEvent() {
 
             navigate({to: '/events'})
 
-            const newExperience = await createExperience({ value })
+            queryClient.setQueryData(loadingCreateExperienceQueryOptions.queryKey, { experience: value })
 
-            queryClient.setQueryData(eventQueryOptions.queryKey, ({
-                ...existingExperiences,
-                experiences: [newExperience ,...existingExperiences.experiences]
-            }))
+            try {
+                const newExperience = await createExperience({ value })
+
+                queryClient.setQueryData(eventQueryOptions.queryKey, {
+                    ...existingExperiences,
+                    experiences: [newExperience, ...existingExperiences.experiences],
+                })
+            } catch (error) {
+                
+            } finally {
+                queryClient.setQueryData(loadingCreateExperienceQueryOptions.queryKey, {})
+            }
+
         },
     })
 

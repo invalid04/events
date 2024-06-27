@@ -54,3 +54,13 @@ export async function createExperience({ value } : { value: CreateExperience }) 
     const newExperience = await res.json()
     return newExperience
 }
+
+export const loadingCreateExperienceQueryOptions = queryOptions<{
+    experience?: CreateExperience
+}>({
+    queryKey: ['loading-create-experience'],
+    queryFn: async () => {
+        return {}
+    },
+    staleTime: Infinity,
+})
