@@ -69,6 +69,7 @@ function ExperienceDeleteButton({id} : { id: number }) {
         disabled={mutation.isPending}
         onClick={() => mutation.mutate({ id })}
         variant='outline'
+        className='w-full'
       >
         <Trash />
       </Button>
