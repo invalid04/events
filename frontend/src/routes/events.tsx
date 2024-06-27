@@ -1,26 +1,13 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { api } from '@/lib/api'
+import { eventQueryOptions } from '@/lib/api'
 import { useQuery } from '@tanstack/react-query'
 
 export const Route = createFileRoute('/events')({
   component: StyledEvents,
 })
 
-async function getAllEvents() {
-  const res = await api.experiences.$get()
-  if (!res.ok) {
-    throw new Error('server-error')
-  }
-  const data = await res.json()
-  return data
-}
-
-
 function StyledEvents() {
-  const { isPending, error, data } = useQuery({
-    queryKey: ['get-all-events'],
-    queryFn: getAllEvents,
-  })
+  const { isPending, error, data } = useQuery(eventQueryOptions)
 
   if (error) return 'An error has occurred'
 
