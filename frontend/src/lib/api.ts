@@ -30,7 +30,7 @@ export const userQueryOptions = queryOptions({
 // event query
 
 async function getAllEvents() {
-    const res = await api.experiences.$get()
+    const res = await api.experiences['all-events'].$get()
     if (!res.ok) {
       throw new Error('server error')
     }
@@ -48,8 +48,9 @@ export const eventQueryOptions = queryOptions({
 // user event query
 
 export async function getMyEvents() {
-    const res = await api.experiences['my-events'].$get()
-    if (!res.ok) {
+    const res = await api.experiences.$get()
+
+    if(!res.ok) {
         throw new Error('server error')
     }
 
@@ -59,7 +60,7 @@ export async function getMyEvents() {
 
 export const myEventQueryOptions = queryOptions({
     queryKey: ['get-my-events'],
-    queryFn: getMyEvents
+    queryFn: getMyEvents,
 })
 
 // create experience

@@ -12,13 +12,26 @@ import { createExperienceSchema } from '../sharedTypes'
 export const experiencesRoute = new Hono()
 
 // get all experiences
-.get('/', async (c) => {
+.get('/all-events', async (c) => {
     const experiences = await db 
         .select()
         .from(experiencesTable)
         .orderBy(desc(experiencesTable.createdAt))
     
     return c.json({ experiences: experiences})
+})
+
+// get experience user id
+.get('/', getUser, async (c) => {
+    const user = c.var.user
+
+    const experiences = await db 
+        .select()
+        .from(experiencesTable)
+        .where(eq(experiencesTable.userId, user.id))
+        .orderBy(desc(experiencesTable.createdAt))
+
+    return c.json({ experiences: experiences })
 })
 
 // add experience
@@ -81,17 +94,4 @@ export const experiencesRoute = new Hono()
         return c.notFound()
     }
     return c.json({ experience: experience })
-})
-
-// get experience user id
-.get('/:id{[0-9]+}', getUser, async (c) => {
-    const user = c.var.user
-
-    const experiences = await db 
-        .select()
-        .from(experiencesTable)
-        .where(eq(experiencesTable.userId, user.id))
-        .orderBy(desc(experiencesTable.createdAt))
-
-    return c.json({ experiences: experiences })
 })
