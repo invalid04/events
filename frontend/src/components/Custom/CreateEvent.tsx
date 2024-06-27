@@ -48,6 +48,10 @@ export default function CreateEvent() {
             maxAttendance: '',
         },
         onSubmit: async ({ value }) => {
+            const existingExperiences = await queryClient.ensureQueryData(
+                eventQueryOptions
+            )
+
             const res = await api.experiences.$post({ json: value })
             if (!res.ok) {
                 throw new Error('server error')
@@ -55,7 +59,6 @@ export default function CreateEvent() {
 
             const newExperience = await res.json()
 
-            const existingExperiences = await queryClient.ensureQueryData(eventQueryOptions)
             queryClient.setQueryData(eventQueryOptions.queryKey, ({
                 ...existingExperiences,
                 experiences: [newExperience ,...existingExperiences.experiences]
