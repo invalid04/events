@@ -3,7 +3,7 @@ import { api } from '@/lib/api'
 import { useQuery } from '@tanstack/react-query'
 
 export const Route = createFileRoute('/events')({
-  component: Events,
+  component: StyledEvents,
 })
 
 async function getAllEvents() {
@@ -27,6 +27,30 @@ function Events() {
       <pre>
         {isPending ? '...' : JSON.stringify(data, null, 2)}
       </pre>
+    </div>
+  )
+}
+
+function StyledEvents() {
+  const { isPending, error, data } = useQuery({
+    queryKey: ['get-all-events'],
+    queryFn: getAllEvents,
+  })
+
+  if (error) return 'An error has occurred'
+
+  return (
+    <div>
+      {isPending 
+        ? '...' 
+        : data.experiences.map((experience) => (
+          <div>
+            <p>{experience.title}</p>
+            <p>{experience.maxAttendance}</p>
+            <p>{experience.date}</p>
+          </div>
+        ))
+      }
     </div>
   )
 }
