@@ -1,10 +1,10 @@
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Card } from "../ui/card";
+import { Button } from "../ui/button";
 
 import { useQuery } from "@tanstack/react-query";
 
 import { userQueryOptions } from '@/lib/api'
-
 
 export function ProfileCard() {
 
@@ -14,14 +14,20 @@ export function ProfileCard() {
     if (error) return 'not logged in'
 
     return (
-        <Card className='w-36 h-16 flex justify-center items-center gap-4'>
-            <Avatar>
-                {data.user.picture && (
-                    <AvatarImage src={data.user.picture} alt={data.user.given_name} />
-                )}
-                <AvatarFallback>{data.user.given_name}</AvatarFallback>
-            </Avatar>
-            <h1>{data.user.given_name}</h1>
+        <Card className='flex flex-col max-w-sm mx-auto h-34 items-center justify-between p-4'>
+            <div className='flex items-center space-x-4'>
+                <Avatar>
+                    {data.user.picture && (
+                        <AvatarImage src={data.user.picture} alt={data.user.given_name} />
+                    )}
+                    <AvatarFallback>{data.user.given_name.charAt(0)}</AvatarFallback>
+                </Avatar>
+                <h1>{data.user.given_name}</h1>
+            </div>
+            <hr className='w-full border-t my-4' />
+            <Button asChild className='w-full'>
+                <a href='/api/logout'>Logout</a>
+            </Button>
         </Card>
     )
 }
