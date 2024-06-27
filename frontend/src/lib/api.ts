@@ -2,6 +2,8 @@ import { hc } from "hono/client";
 import { type ApiRoutes } from "@server/app";
 import { queryOptions } from "@tanstack/react-query";
 
+import { type CreateExperience } from "@server/sharedTypes";
+
 const client = hc<ApiRoutes>('/')
 
 export const api = client.api
@@ -43,7 +45,7 @@ export const eventQueryOptions = queryOptions({
     staleTime: 1000 * 60 * 5,
 })
 
-export async function createExperience({ value }) {
+export async function createExperience({ value } : { value: CreateExperience }) {
     const res = await api.experiences.$post({ json: value })
     if (!res.ok) {
         throw new Error('server error')
