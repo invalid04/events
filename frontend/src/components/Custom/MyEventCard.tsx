@@ -1,5 +1,4 @@
-import { Card } from "../ui/card";
-import { CardTitle } from "../ui/card";
+import { Card, CardTitle, CardContent, CardHeader } from "../ui/card";
 
 import { useQuery } from "@tanstack/react-query";
 
@@ -13,13 +12,17 @@ export function MyEventCard() {
     if (error) return 'error'
 
     return (
-        <div>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {data.experiences.map((experience) => (
-                <div key={experience.id}>
-                    <p>{experience.title}</p>
-                    <p>{experience.maxAttendance}</p>
-                    <p>{experience.date}</p>
-                </div>
+                <Card key={experience.id}>
+                    <CardHeader>
+                        <CardTitle>Title: {experience.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <p>Max Attendance: {experience.maxAttendance}</p>
+                        <p>Date: {experience.date}</p>
+                    </CardContent>
+                </Card>
             ))}
         </div>
     )
