@@ -163,6 +163,9 @@ export default function CreateEvent() {
 
         <form.Field 
             name='time'
+            validators={{
+                onChange: createExperienceSchema.shape.time
+            }}            
             children={(field) => (
                 <div>
                     <Input 

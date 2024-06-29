@@ -27,7 +27,10 @@ export const insertExperiencesSchema = createInsertSchema(experiences, {
         .min(5, { message: 'Title must be at least 5 characters' }),
     maxAttendance: z.string().regex(/^\d+(\.\d{1,2})?$/, { message: 'Must enter a number' }),
     location: z.string().min(5, { message: 'Must enter a valid location'}),
-    desc: z.string().min(5, { message: 'Please write a longer description' })
+    desc: z.string().min(5, { message: 'Please write a longer description' }),
+    time: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, {
+        message: 'Invalid time format. Expected HH:MM:PM'
+    })
 })
 
 export const selectExperiencesSchema = createSelectSchema(experiences)
