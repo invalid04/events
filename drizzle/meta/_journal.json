@@ -43,6 +43,13 @@
       "when": 1719638638895,
       "tag": "0005_chemical_scrambler",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1719642565760,
+      "tag": "0006_plain_norman_osborn",
+      "breakpoints": true
     }
   ]
 }
