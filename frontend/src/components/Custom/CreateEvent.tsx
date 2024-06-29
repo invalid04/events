@@ -169,6 +169,7 @@ export default function CreateEvent() {
                         onBlur={field.handleBlur}
                         placeholder='Time'
                         onChange={(e) => field.handleChange(e.target.value)}
+                        type='time'
                     />
                     <FieldInfo field={field} />
                 </div>
