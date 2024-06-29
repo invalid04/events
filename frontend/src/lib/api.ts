@@ -129,7 +129,7 @@ export async function getTotalAttendees({ id } : { id: number }) {
     return data.total[0].count
 }
 
-export const totalAttendeeOptions = queryOptions({
-    queryKey: ['get-total-attendees'],
-    queryFn: getTotalAttendees as any,
-})
+export const totalAttendeeOptions = (id: number) => queryOptions({
+    queryKey: ['get-total-attendees', id],
+    queryFn: () => getTotalAttendees({ id }),
+  });
