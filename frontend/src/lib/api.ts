@@ -1,6 +1,6 @@
 import { hc } from "hono/client";
 import { type ApiRoutes } from "@server/app";
-import { QueryClient, queryOptions } from "@tanstack/react-query";
+import { QueryClient, queryOptions, QueryFunction } from "@tanstack/react-query";
 
 import { type CreateExperience } from "@server/sharedTypes";
 
@@ -128,3 +128,4 @@ export async function getTotalAttendees({ id } : { id: number }) {
     const data = await res.json()
     return data.total[0].count
 }
+
