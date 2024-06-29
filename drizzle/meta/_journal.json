@@ -29,6 +29,13 @@
       "when": 1719637784681,
       "tag": "0003_ambiguous_leo",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1719638387215,
+      "tag": "0004_fearless_random",
+      "breakpoints": true
     }
   ]
 }
