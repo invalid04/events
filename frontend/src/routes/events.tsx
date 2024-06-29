@@ -1,5 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { eventQueryOptions, loadingCreateExperienceQueryOptions, attendEventMutationOptions } from '@/lib/api'
+import { 
+    eventQueryOptions, 
+    loadingCreateExperienceQueryOptions, 
+    attendEventMutationOptions, 
+    totalAttendeesQueryOptions } from '@/lib/api'
 import { useMutation, useQuery} from '@tanstack/react-query'
 
 import { Card } from '@/components/ui/card'
@@ -11,6 +15,7 @@ export const Route = createFileRoute('/events')({
 
 function StyledEvents() {
   const { isPending, error, data } = useQuery(eventQueryOptions)
+  const { data: attendees } = useQuery(totalAttendeesQueryOptions)
   const { data: loadingCreateExperience } = useQuery(loadingCreateExperienceQueryOptions)
   const { mutate: attendEvent } = useMutation(attendEventMutationOptions)
 
@@ -42,6 +47,7 @@ function StyledEvents() {
               <p>{experience.title}</p>
               <p>{experience.maxAttendance}</p>
               <p>{experience.date}</p>
+              <p>Attendees: {attendees}</p>
               <Button
                 onClick={() => handleAttendClick(experience.id)}
               >

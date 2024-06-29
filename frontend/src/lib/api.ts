@@ -115,3 +115,19 @@ export async function attendEvent({ eventId, userId }: { eventId: number, userId
 export const attendEventMutationOptions = {
     mutationFn: attendEvent,
 }
+
+// get attendees per event
+
+export async function getTotalAttendees() {
+    const res = await api.attendees['event-attendees'].$get()
+    if(!res.ok) {
+        throw new Error('server error')
+    }
+    const data = await res.json()
+    return data.total[0].count
+}
+
+export const totalAttendeesQueryOptions = queryOptions({
+    queryKey: ['get-total-attendees'],
+    queryFn: getTotalAttendees,
+})

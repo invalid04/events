@@ -46,10 +46,10 @@ export const attendeesRoute = new Hono()
 // get attendees for event
 
 .get('/event-attendees', async (c) => {
-    const eventAttendees = await db 
+    const total= await db 
         .select({ count: count() })
         .from(attendeesTable)
         .where(eq(attendeesTable.eventId, experiencesTable.id))
     
-    return c.json({ eventAttendees: eventAttendees})
+    return c.json({ total })
 })
