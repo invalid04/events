@@ -45,11 +45,18 @@ export const attendeesRoute = new Hono()
 
 // get attendees for event
 
-.get('/event-attendees', async (c) => {
-    const total= await db 
-        .select({ count: count() })
-        .from(attendeesTable)
-        .where(eq(attendeesTable.eventId, experiencesTable.id))
-    
-    return c.json({ total })
+.get('/:id{[0-9]+}', async (c) => {
+    const eventId = Number.parseInt(c.req.param('id'))
+
+    try {
+        const total = await db
+            .select({ count: count() })
+            .from(attendeesTable)
+            .where(eq(attendeesTable.eventId, eventId))
+            
+        return c.json({ total })      
+    } catch (error) {
+        console.error('error fetching total attendees: ', error)
+        return c.status(500)
+    }
 })
