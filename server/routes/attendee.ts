@@ -5,7 +5,7 @@ import { Hono } from 'hono'
 import { experiences as experiencesTable } from '../db/schema/experience'
 import { eventAttendees as attendeesTable } from '../db/schema/eventAttendees'
 import { db } from '../db'
-import { eq } from 'drizzle-orm'
+import { count, eq } from 'drizzle-orm'
 
 const attendEventSchema = z.object({
     eventId: z.number(),
@@ -13,6 +13,8 @@ const attendEventSchema = z.object({
 })
 
 export const attendeesRoute = new Hono()
+
+// attend an event
 
 .post('/attend', async (c) => {
     const { eventId, userId } = attendEventSchema.parse(await c.req.json())
@@ -39,4 +41,15 @@ export const attendeesRoute = new Hono()
     }).execute()
 
     return c.json({ sucess: true })
+})
+
+// get attendees for event
+
+.get('/event-attendees', async (c) => {
+    const eventAttendees = await db 
+        .select({ count: count() })
+        .from(attendeesTable)
+        .where(eq(attendeesTable.eventId, experiencesTable.id))
+    
+    return c.json({ eventAttendees: eventAttendees})
 })
