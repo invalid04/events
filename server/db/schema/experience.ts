@@ -9,6 +9,7 @@ export const experiences = pgTable('experiences', {
     title: text('title').notNull(),
     desc: text('description').notNull(),
     time: time('time', { withTimezone: true} ).notNull(),
+    location: text('location').notNull(),
     maxAttendance: numeric('maxAttnd').notNull(),
     date: date('date').notNull(),
     createdAt: timestamp('created_at').defaultNow()
