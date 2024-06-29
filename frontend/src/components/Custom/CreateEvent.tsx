@@ -178,6 +178,9 @@ export default function CreateEvent() {
 
         <form.Field 
             name='location'
+            validators={{
+                onChange: createExperienceSchema.shape.location
+            }}
             children={(field) => (
                 <div>
                     <Input 
