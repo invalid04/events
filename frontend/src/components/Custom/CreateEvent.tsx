@@ -111,6 +111,9 @@ export default function CreateEvent() {
 
         <form.Field 
             name='desc'
+            validators={{
+                onChange: createExperienceSchema.shape.desc
+            }}
             children={(field) => (
                 <div>
                     <Textarea
