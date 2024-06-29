@@ -1,12 +1,14 @@
 import { hc } from "hono/client";
 import { type ApiRoutes } from "@server/app";
-import { queryOptions } from "@tanstack/react-query";
+import { QueryClient, queryOptions } from "@tanstack/react-query";
 
 import { type CreateExperience } from "@server/sharedTypes";
 
 const client = hc<ApiRoutes>('/')
 
 export const api = client.api
+
+export const queryClient = new QueryClient()
 
 // user query
 
@@ -95,4 +97,21 @@ export async function deleteExperience({ id } : { id: number }){
     if (!res.ok) {
         throw new Error('server error')
     }
+}
+
+export async function attendEvent({ eventId, userId }: { eventId: number, userId: string}) {
+    const res = await api.attendees['attend'].$post({
+        json: { eventId, userId }
+    })
+
+    if (!res.ok) {
+        throw new Error('server error')
+    }
+
+    const data = await res.json()
+    return data
+}
+
+export const attendEventMutationOptions = {
+    mutationFn: attendEvent,
 }
