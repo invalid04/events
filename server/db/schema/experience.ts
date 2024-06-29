@@ -7,6 +7,7 @@ export const experiences = pgTable('experiences', {
     id: serial('id').primaryKey(),
     userId: text('user_id').notNull(), 
     title: text('title').notNull(),
+    desc: text('description').notNull(),
     maxAttendance: numeric('maxAttnd').notNull(),
     date: date('date').notNull(),
     createdAt: timestamp('created_at').defaultNow()
