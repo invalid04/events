@@ -67,17 +67,6 @@ export const myEventQueryOptions = queryOptions({
 
 // get event by event id
 
-interface Experience {
-    id: number;
-    title: string;
-    userId: string;
-    desc: string;
-    time: string;
-    location: string;
-    maxAttendance: string;
-    createdAt: string | null
-}
-
 export async function getEventById({ id } : { id: number }) {
     const res = await api.experiences[':id{[0-9]+}'].$get({
         param: { id: id.toString() }
@@ -87,7 +76,7 @@ export async function getEventById({ id } : { id: number }) {
         throw new Error('server error')
     }
 
-    const data = await res.json() as Experience
+    const data = await res.json() 
     return data
 }
 
