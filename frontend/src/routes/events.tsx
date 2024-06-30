@@ -1,4 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router'
+
 import { 
     eventQueryOptions, 
     loadingCreateExperienceQueryOptions, 
@@ -42,19 +44,26 @@ function StyledEvents() {
       {isPending 
         ? '...' 
         : data.experiences.map((experience) => (
-          <Card key={experience.id} className='p-2 max-w-sm mb-2 flex justify-between items-center'>
-            <div className='flex flex-col justify-between'>
-              <p>{experience.title}</p>
-              <p>{experience.maxAttendance}</p>
-              <p>{experience.date}</p>
-              <p><TotalAttendees id={experience.id} /></p>
-              <Button
-                onClick={() => handleAttendClick(experience.id)}
-              >
-                Attend
-              </Button>
-            </div>
-          </Card>
+          <Link
+            to='/events/$eventId'
+            params = {{
+              eventId: experience.id.toString()
+            }}
+          >
+            <Card key={experience.id} className='p-2 max-w-sm mb-2 flex justify-between items-center'>
+              <div className='flex flex-col justify-between'>
+                <p>{experience.title}</p>
+                <p>{experience.maxAttendance}</p>
+                <p>{experience.date}</p>
+                <p><TotalAttendees id={experience.id} /></p>
+                <Button
+                  onClick={() => handleAttendClick(experience.id)}
+                >
+                  Attend
+                </Button>
+              </div>
+            </Card>
+          </Link>
         ))
       }
     </div>
