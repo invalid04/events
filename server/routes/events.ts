@@ -76,7 +76,7 @@ export const experiencesRoute = new Hono()
     if (!experience) {
         return c.notFound()
     }
-    return c.json({experience})
+    return c.json({experience: experience})
 })
 
 // delete experience

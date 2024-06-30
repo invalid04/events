@@ -101,7 +101,7 @@ export async function deleteExperience({ id } : { id: number }){
 
 // fetch event by id
 
-export async function getEventById({ id } : { id: number }) {
+export async function getEventById(id: number) {
     const res = await api.experiences[':id{[0-9]+}'].$get({
         param: { id: id.toString() }
     })
@@ -113,6 +113,11 @@ export async function getEventById({ id } : { id: number }) {
     const data = await res.json()
     return data
 }
+
+export const eventByIdQueryOptions = (id: number) => queryOptions({
+    queryKey: ['get-event-id'],
+    queryFn: () => getEventById(id),
+})
 
 // attend event function
 
