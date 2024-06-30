@@ -15,6 +15,7 @@ import { Route as EventsImport } from './routes/events'
 import { Route as AboutImport } from './routes/about'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as IndexImport } from './routes/index'
+import { Route as EventsEventIdImport } from './routes/events/$eventId'
 import { Route as AuthenticatedProfileImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedCreateEventImport } from './routes/_authenticated/create-event'
 
@@ -38,6 +39,11 @@ const AuthenticatedRoute = AuthenticatedImport.update({
 const IndexRoute = IndexImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const EventsEventIdRoute = EventsEventIdImport.update({
+  path: '/$eventId',
+  getParentRoute: () => EventsRoute,
 } as any)
 
 const AuthenticatedProfileRoute = AuthenticatedProfileImport.update({
@@ -96,6 +102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProfileImport
       parentRoute: typeof AuthenticatedImport
     }
+    '/events/$eventId': {
+      id: '/events/$eventId'
+      path: '/$eventId'
+      fullPath: '/events/$eventId'
+      preLoaderRoute: typeof EventsEventIdImport
+      parentRoute: typeof EventsImport
+    }
   }
 }
 
@@ -108,7 +121,7 @@ export const routeTree = rootRoute.addChildren({
     AuthenticatedProfileRoute,
   }),
   AboutRoute,
-  EventsRoute,
+  EventsRoute: EventsRoute.addChildren({ EventsEventIdRoute }),
 })
 
 /* prettier-ignore-end */
@@ -139,7 +152,10 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "about.tsx"
     },
     "/events": {
-      "filePath": "events.tsx"
+      "filePath": "events.tsx",
+      "children": [
+        "/events/$eventId"
+      ]
     },
     "/_authenticated/create-event": {
       "filePath": "_authenticated/create-event.tsx",
@@ -148,6 +164,10 @@ export const routeTree = rootRoute.addChildren({
     "/_authenticated/profile": {
       "filePath": "_authenticated/profile.tsx",
       "parent": "/_authenticated"
+    },
+    "/events/$eventId": {
+      "filePath": "events/$eventId.tsx",
+      "parent": "/events"
     }
   }
 }
