@@ -99,6 +99,23 @@ export async function deleteExperience({ id } : { id: number }){
     }
 }
 
+// fetch event by id
+
+export async function getEventById({ id } : { id: number }) {
+    const res = await api.experiences[':id{[0-9]+}'].$get({
+        param: { id: id.toString() }
+    })
+
+    if (!res.ok) {
+        throw new Error('server error')
+    }
+
+    const data = await res.json()
+    return data
+}
+
+// attend event function
+
 export async function attendEvent({ eventId, userId }: { eventId: number, userId: string}) {
     const res = await api.attendees['attend'].$post({
         json: { eventId, userId }
