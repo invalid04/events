@@ -1,38 +1,9 @@
-import { createFileRoute, useParams } from '@tanstack/react-router'
-
-import { eventByIdQueryOptions } from '@/lib/api'
-import { useQuery } from '@tanstack/react-query'
+import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/experiences/$eventId')({
-  component: () => EventComponent,
-
+  component: DetailRoute,
 })
 
-interface Event {
-  id: number,
-  title: string,
-  description: string,
-  location: string,
-  maxAttendees: string
-}
-
-const EventComponent = () => {
-  const { eventId } = useParams({ from: '/experiences/$eventId'})
-
-  const { isPending, error, data } = useQuery(eventByIdQueryOptions(Number(eventId)))
-
-  if (isPending) return '...'
-  if (error) return 'error'
-
-  const event: Event | undefined = data as Event
-
-  if (!event) {
-    return 'event not found'
-  }
-
-  return (
-    <div>
-      <h1>{event.title}</h1>
-    </div>
-  )
+function DetailRoute() {
+  return <div>Hello</div>
 }

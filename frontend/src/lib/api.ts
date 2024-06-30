@@ -65,6 +65,37 @@ export const myEventQueryOptions = queryOptions({
     queryFn: getMyEvents,
 })
 
+// get event by event id
+
+interface Experience {
+    id: number;
+    title: string;
+    userId: string;
+    desc: string;
+    time: string;
+    location: string;
+    maxAttendance: string;
+    createdAt: string | null
+}
+
+export async function getEventById({ id } : { id: number }) {
+    const res = await api.experiences[':id{[0-9]+}'].$get({
+        param: { id: id.toString() }
+    })
+
+    if (!res.ok) {
+        throw new Error('server error')
+    }
+
+    const data = await res.json() as Experience
+    return data
+}
+
+export const eventByIdQueryOptions = (id: number) => queryOptions({
+    queryKey: ['event-by-id', id],
+    queryFn: () => getEventById({ id }),
+  });
+
 // create experience
 
 export async function createExperience({ value } : { value: CreateExperience }) {
@@ -98,26 +129,6 @@ export async function deleteExperience({ id } : { id: number }){
         throw new Error('server error')
     }
 }
-
-// fetch event by id
-
-export async function getEventById({ id } : { id: number }) {
-    const res = await api.experiences[':id{[0-9]+}'].$get({
-        param: { id: id.toString() }
-    })
-
-    if (!res.ok) {
-        throw new Error('server error')
-    }
-
-    const data = await res.json()
-    return data
-}
-
-export const eventByIdQueryOptions = (id: number) => queryOptions({
-    queryKey: ['get-event-id', id],
-    queryFn: () => getEventById({id}),
-})
 
 // attend event function
 
