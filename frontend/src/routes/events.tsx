@@ -5,7 +5,7 @@ import {
     eventQueryOptions, 
     loadingCreateExperienceQueryOptions, 
     attendEventMutationOptions,
-    totalAttendeeOptions } from '@/lib/api'
+    userQueryOptions } from '@/lib/api'
 import { useMutation, useQuery} from '@tanstack/react-query'
 
 import { Card } from '@/components/ui/card'
@@ -21,9 +21,14 @@ function StyledEvents() {
   const { data: loadingCreateExperience } = useQuery(loadingCreateExperienceQueryOptions)
   const { mutate: attendEvent } = useMutation(attendEventMutationOptions)
 
+  const { data: userData } = useQuery(userQueryOptions)
+
   const handleAttendClick = async (eventId: number) => {
     try {
-      await attendEvent({ eventId, userId: '1'})
+      if (!userData) {
+        throw new Error('User is not logged in')
+      }
+      await attendEvent({ eventId, userId: userData.user.id })
     }
     catch (error) {
       console.error('Failed to attend event')
@@ -44,12 +49,7 @@ function StyledEvents() {
       {isPending 
         ? '...' 
         : data.experiences.map((experience) => (
-          <Link
-            to='/experiences/$eventId'
-            params = {{
-              eventId: experience.id.toString()
-            }}
-          >
+
             <Card key={experience.id} className='p-2 max-w-sm mb-2 flex justify-between items-center'>
               <div className='flex flex-col justify-between'>
                 <p>{experience.title}</p>
@@ -63,7 +63,7 @@ function StyledEvents() {
                 </Button>
               </div>
             </Card>
-          </Link>
+ 
         ))
       }
     </div>
