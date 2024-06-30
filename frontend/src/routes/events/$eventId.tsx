@@ -4,7 +4,7 @@ import { eventByIdQueryOptions } from '@/lib/api'
 import { useQuery } from '@tanstack/react-query'
 
 export const Route = createFileRoute('/events/$eventId')({
-  component: () => <div>Hello /events/$eventId!</div>,
+  component: () => EventComponent,
 
 })
 
@@ -25,4 +25,14 @@ const EventComponent = () => {
   if (error) return 'error'
 
   const event: Event | undefined = data as Event
+
+  if (!event) {
+    return 'event not found'
+  }
+
+  return (
+    <div>
+      <h1>{event.title}</h1>
+    </div>
+  )
 }
