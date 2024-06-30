@@ -3,9 +3,13 @@ import { z } from 'zod'
 import { Hono } from 'hono'
 
 import { experiences as experiencesTable } from '../db/schema/experience'
-import { eventAttendees as attendeesTable } from '../db/schema/eventAttendees'
+import { eventAttendees as attendeesTable, insertAttendeeSchema } from '../db/schema/eventAttendees'
 import { db } from '../db'
 import { count, eq } from 'drizzle-orm'
+
+import { getUser } from '../kinde'
+import { zValidator } from '@hono/zod-validator'
+import { addAttendeeSchema } from '../sharedTypes'
 
 const attendEventSchema = z.object({
     eventId: z.number(),
@@ -42,7 +46,6 @@ export const attendeesRoute = new Hono()
 
     return c.json({ sucess: true })
 })
-
 // get attendees for event
 
 .get('/:id{[0-9]+}', async (c) => {

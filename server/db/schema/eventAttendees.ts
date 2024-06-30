@@ -1,4 +1,6 @@
 import { pgTable, serial, text, integer, foreignKey, timestamp, index, unique } from "drizzle-orm/pg-core";
+import { createInsertSchema } from "drizzle-zod";
+import { z } from 'zod'
 
 export const eventAttendees = pgTable('event_attendees', {
     id: serial('id').primaryKey(), 
@@ -11,4 +13,8 @@ export const eventAttendees = pgTable('event_attendees', {
         userIdIndex: index('user_id_idx').on(eventAttendees.userId),
         uniqueConstraint: unique('event_user_unique').on(eventAttendees.eventId, eventAttendees.userId)
     }
+})
+
+export const insertAttendeeSchema =createInsertSchema(eventAttendees, {
+    id: z.number()
 })
