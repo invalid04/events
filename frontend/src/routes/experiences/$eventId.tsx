@@ -3,7 +3,7 @@ import { createFileRoute, useParams } from '@tanstack/react-router'
 import { eventByIdQueryOptions } from '@/lib/api'
 import { useQuery } from '@tanstack/react-query'
 
-export const Route = createFileRoute('/events/$eventId')({
+export const Route = createFileRoute('/experiences/$eventId')({
   component: () => EventComponent,
 
 })
@@ -17,7 +17,7 @@ interface Event {
 }
 
 const EventComponent = () => {
-  const { eventId } = useParams({ from: '/events/$eventId'})
+  const { eventId } = useParams({ from: '/experiences/$eventId'})
 
   const { isPending, error, data } = useQuery(eventByIdQueryOptions(Number(eventId)))
 

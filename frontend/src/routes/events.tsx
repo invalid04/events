@@ -45,7 +45,7 @@ function StyledEvents() {
         ? '...' 
         : data.experiences.map((experience) => (
           <Link
-            to='/events/$eventId'
+            to='/experiences/$eventId'
             params = {{
               eventId: experience.id.toString()
             }}

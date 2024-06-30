@@ -15,7 +15,7 @@ import { Route as EventsImport } from './routes/events'
 import { Route as AboutImport } from './routes/about'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as IndexImport } from './routes/index'
-import { Route as EventsEventIdImport } from './routes/events/$eventId'
+import { Route as ExperiencesEventIdImport } from './routes/experiences/$eventId'
 import { Route as AuthenticatedProfileImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedCreateEventImport } from './routes/_authenticated/create-event'
 
@@ -41,9 +41,9 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const EventsEventIdRoute = EventsEventIdImport.update({
-  path: '/$eventId',
-  getParentRoute: () => EventsRoute,
+const ExperiencesEventIdRoute = ExperiencesEventIdImport.update({
+  path: '/experiences/$eventId',
+  getParentRoute: () => rootRoute,
 } as any)
 
 const AuthenticatedProfileRoute = AuthenticatedProfileImport.update({
@@ -102,12 +102,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProfileImport
       parentRoute: typeof AuthenticatedImport
     }
-    '/events/$eventId': {
-      id: '/events/$eventId'
-      path: '/$eventId'
-      fullPath: '/events/$eventId'
-      preLoaderRoute: typeof EventsEventIdImport
-      parentRoute: typeof EventsImport
+    '/experiences/$eventId': {
+      id: '/experiences/$eventId'
+      path: '/experiences/$eventId'
+      fullPath: '/experiences/$eventId'
+      preLoaderRoute: typeof ExperiencesEventIdImport
+      parentRoute: typeof rootRoute
     }
   }
 }
@@ -121,7 +121,8 @@ export const routeTree = rootRoute.addChildren({
     AuthenticatedProfileRoute,
   }),
   AboutRoute,
-  EventsRoute: EventsRoute.addChildren({ EventsEventIdRoute }),
+  EventsRoute,
+  ExperiencesEventIdRoute,
 })
 
 /* prettier-ignore-end */
@@ -135,7 +136,8 @@ export const routeTree = rootRoute.addChildren({
         "/",
         "/_authenticated",
         "/about",
-        "/events"
+        "/events",
+        "/experiences/$eventId"
       ]
     },
     "/": {
@@ -152,10 +154,7 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "about.tsx"
     },
     "/events": {
-      "filePath": "events.tsx",
-      "children": [
-        "/events/$eventId"
-      ]
+      "filePath": "events.tsx"
     },
     "/_authenticated/create-event": {
       "filePath": "_authenticated/create-event.tsx",
@@ -165,9 +164,8 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "_authenticated/profile.tsx",
       "parent": "/_authenticated"
     },
-    "/events/$eventId": {
-      "filePath": "events/$eventId.tsx",
-      "parent": "/events"
+    "/experiences/$eventId": {
+      "filePath": "experiences/$eventId.tsx"
     }
   }
 }
