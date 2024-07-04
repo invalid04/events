@@ -1,6 +1,6 @@
 import { hc } from "hono/client";
 import { type ApiRoutes } from "@server/app";
-import { QueryClient, queryOptions, useQueryClient } from "@tanstack/react-query";
+import { QueryClient, queryOptions, useQueryClient, useQuery } from "@tanstack/react-query";
 
 import { type CreateExperience } from "@server/sharedTypes";
 
@@ -67,23 +67,7 @@ export const myEventQueryOptions = queryOptions({
 
 // get event by event id
 
-export async function getEventById({ id } : { id: number }) {
-    const res = await api.experiences[':id{[0-9]+}'].$get({
-        param: { id: id.toString() }
-    })
 
-    if (!res.ok) {
-        throw new Error('server error')
-    }
-
-    const data = await res.json() 
-    return data
-}
-
-export const eventByIdQueryOptions = (id: number) => queryOptions({
-    queryKey: ['event-by-id', id],
-    queryFn: () => getEventById({ id }),
-  });
 
 // create experience
 
