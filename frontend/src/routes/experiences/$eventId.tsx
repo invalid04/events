@@ -4,8 +4,14 @@ import { createFileRoute, useParams } from '@tanstack/react-router'
 // Define the type for the experience data
 interface Experience {
   id: number;
+  date: string;
+  userId: string;
   title: string;
-  // Add other fields as needed
+  desc: string;
+  time: string;
+  location: string;
+  maxAttendance: string;
+  createdAt: string | null;
 }
 
 // Create a file route for the experience details
@@ -49,6 +55,10 @@ function DetailRoute() {
     <div>
       hello {eventId}
       <p>{data?.experience.title}</p>
+      <p>{data?.experience.desc}</p>
+      <p>{data?.experience.date}</p>
+      <p>{data?.experience.time}</p>
+      <p>{data?.experience.location}</p>
     </div>
   )
 }
