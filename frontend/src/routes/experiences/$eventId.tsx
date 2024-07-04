@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { createFileRoute, useParams } from '@tanstack/react-router'
 
 // Define the type for the experience data
