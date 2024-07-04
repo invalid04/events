@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 
 import { 
     eventQueryOptions, 
@@ -41,6 +41,9 @@ function StyledEvents() {
                 <p>{experience.date}</p>
                 <p><TotalAttendees id={experience.id} /></p>
               </div>
+              <Button>
+              <Link to={`/experiences/${experience.id}`}>View Details</Link>
+              </Button>
             </Card>
  
         ))
