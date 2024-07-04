@@ -1,6 +1,6 @@
 import { hc } from "hono/client";
 import { type ApiRoutes } from "@server/app";
-import { QueryClient, queryOptions, QueryFunction } from "@tanstack/react-query";
+import { QueryClient, queryOptions, useQueryClient } from "@tanstack/react-query";
 
 import { type CreateExperience } from "@server/sharedTypes";
 
@@ -132,10 +132,6 @@ export async function attendEvent({ eventId, userId }: { eventId: number, userId
 
     const data = await res.json()
     return data
-}
-
-export const attendEventMutationOptions = {
-    mutationFn: attendEvent,
 }
 
 // get attendees per event

@@ -1,10 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Link } from '@tanstack/react-router'
 
 import { 
     eventQueryOptions, 
     loadingCreateExperienceQueryOptions, 
-    attendEventMutationOptions,
+    
     userQueryOptions } from '@/lib/api'
 import { useMutation, useQuery} from '@tanstack/react-query'
 
@@ -19,21 +18,6 @@ export const Route = createFileRoute('/events')({
 function StyledEvents() {
   const { isPending, error, data } = useQuery(eventQueryOptions)
   const { data: loadingCreateExperience } = useQuery(loadingCreateExperienceQueryOptions)
-  const { mutate: attendEvent } = useMutation(attendEventMutationOptions)
-
-  const { data: userData } = useQuery(userQueryOptions)
-
-  const handleAttendClick = async (eventId: number) => {
-    try {
-      if (!userData) {
-        throw new Error('User is not logged in')
-      }
-      await attendEvent({ eventId, userId: userData.user.id })
-    }
-    catch (error) {
-      console.error('Failed to attend event')
-    }
-  }
 
   if (error) return 'An error has occurred'
 
@@ -56,11 +40,6 @@ function StyledEvents() {
                 <p>{experience.maxAttendance}</p>
                 <p>{experience.date}</p>
                 <p><TotalAttendees id={experience.id} /></p>
-                <Button
-                  onClick={() => handleAttendClick(experience.id)}
-                >
-                  Attend
-                </Button>
               </div>
             </Card>
  
