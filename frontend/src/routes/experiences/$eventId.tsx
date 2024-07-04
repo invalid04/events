@@ -1,17 +1,20 @@
 import { useEffect, useState } from 'react'
 import { createFileRoute, useParams } from '@tanstack/react-router'
+import { Button } from '@/components/ui/button'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { attendEvent, userQueryOptions } from '@/lib/api'
 
 // Define the type for the experience data
 interface Experience {
-  id: number;
-  date: string;
-  userId: string;
-  title: string;
-  desc: string;
-  time: string;
-  location: string;
-  maxAttendance: string;
-  createdAt: string | null;
+  id: number
+  date: string
+  userId: string
+  title: string
+  desc: string
+  time: string
+  location: string
+  maxAttendance: string
+  createdAt: string | null
 }
 
 // Create a file route for the experience details
@@ -46,9 +49,31 @@ function DetailRoute() {
     fetchExperience(eventId)
   }, [eventId])
 
+  // Fetch current user
+  const { data: user, error: userError } = useQuery(userQueryOptions)
+
+  // Mutation for attending an event
+  const mutation = useMutation({
+    mutationFn: ({ eventId, userId }: { eventId: number, userId: string }) => attendEvent({ eventId, userId }),
+    onSuccess: (data) => {
+      console.log('successfully attended event', data)
+    },
+    onError: (error: any) => {
+      console.error('Error attending the event', error)
+    }
+  })
+
   // Handle loading and error states
   if (isLoading) return <div>Loading...</div>
   if (error) return <div>Error: {error}</div>
+  if (userError) return <div>Error fetching user info</div>
+
+  // Handle attend button click
+  const handleAttend = () => {
+    if (user) {
+      mutation.mutate({ eventId: parseInt(eventId), userId: user.user.id })
+    }
+  }
 
   // Display the experience details
   return (
@@ -59,6 +84,12 @@ function DetailRoute() {
       <p>{data?.experience.date}</p>
       <p>{data?.experience.time}</p>
       <p>{data?.experience.location}</p>
+      <Button
+        onClick={handleAttend}
+        disabled={mutation.isPending}
+      >
+        {mutation.isPending ? 'Attending...' : 'Attend Event'}
+      </Button>
     </div>
   )
 }
